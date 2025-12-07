@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copilot Studio Employee Self Service Agent - João Meira</title>
+    <link rel="stylesheet" href="../Style/assets/css/style.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-brand">João Meira</a>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../projects.html" class="active">Projects</a></li>
+                <li><a href="../skills.html">Skills</a></li>
+                <li><a href="../experience.html">Experience</a></li>
+                <li><a href="../formations.html">Certifications</a></li>
+                <li><a href="../Resume.pdf" target="_blank">PDF</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <h1>Copilot Studio Employee Self Service Agent</h1>
+        <p>AI-powered virtual assistant for HR policy inquiries with SharePoint integration</p>
+    </header>
+
+    <main class="container">
+        <section class="intro">
+            <div class="intro-box">
+                <p><strong>Published:</strong> November 9, 2025 | <strong>Status:</strong> <span style="color: var(--success-green);">Production Ready</span></p>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Project Overview</h2>
+            <p>I developed an intelligent Employee Self Service Agent using Microsoft Copilot Studio to automate HR policy inquiries and reduce the workload on HR staff. The agent leverages generative AI to extract information from SharePoint-hosted policy documents and provides instant, accurate responses to employee questions about vacation policies, PTO balances, and carry-over rules.</p>
+            
+            <p>The agent integrates seamlessly with existing SharePoint document repositories, eliminating the need for manual policy lookups and ensuring employees receive consistent, up-to-date information 24/7.</p>
+        </section>
+
+        <section class="project-section">
+            <h2>Business Challenge</h2>
+            <p>HR departments face repetitive inquiries about vacation policies, PTO balances, and time-off procedures. These questions consume significant HR staff time that could be better spent on strategic initiatives. Employees often experience delays waiting for responses, and information inconsistency can lead to confusion and frustration.</p>
+            
+            <p><strong>Solution:</strong> Create an AI-powered self-service agent that provides instant, accurate answers by directly querying policy documents stored in SharePoint.</p>
+        </section>
+
+        <section class="project-section">
+            <h2>Key Features & Capabilities</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>🤖 Generative AI Responses</h3>
+                    <p>Uses Microsoft's generative AI capabilities to understand natural language queries and extract relevant information from policy documents.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>📚 SharePoint Knowledge Base</h3>
+                    <p>Connected to two SharePoint sites containing HR policy documents, ensuring responses are always based on official company policies.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>💬 Conversational Interface</h3>
+                    <p>Natural greeting and conversation flow with custom topics for vacation queries, PTO balance checks, and policy clarifications.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>📊 Vacation Balance Lookup</h3>
+                    <p>Retrieves employee-specific vacation day balances by prompting for user email and querying backend data sources.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>📋 Policy Citations</h3>
+                    <p>Provides detailed policy information with document references, ensuring transparency and traceability of information sources.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>🔄 Context Management</h3>
+                    <p>Handles conversation flow with "Start Over" and "Thank You" topics for seamless user experience.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Technical Implementation</h2>
+            
+            <h3>Topics Configured</h3>
+            <p>I created 5 custom topics to handle specific user interactions:</p>
+            <ul>
+                <li><strong>Greeting:</strong> Welcomes users and introduces the agent's capabilities</li>
+                <li><strong>Prompt Vacation Days:</strong> Core topic that handles vacation policy queries, balance lookups, and carry-over rules</li>
+                <li><strong>Start Over:</strong> Allows users to reset the conversation and begin a new query</li>
+                <li><strong>Thank You:</strong> Acknowledges user gratitude and offers additional assistance</li>
+                <li><strong>Goodbye:</strong> Provides friendly closure to conversations</li>
+            </ul>
+            <p>Additionally, 9 system topics handle standard conversation management, escalation, and error handling.</p>
+
+            <h3>Knowledge Sources</h3>
+            <p>The agent is connected to authenticated SharePoint sites containing HR policy documentation:</p>
+            <ul>
+                <li><strong>Documents Site:</strong> General HR policy repository</li>
+                <li><strong>rmgenvm.cap426261.sharepoint.com:</strong> Specific vacation policy documentation including carry-over rules, PTO accrual rates, and request procedures</li>
+            </ul>
+            <p>Both sources are marked as "Ready" and provide general availability to the Employee Self Service Agent for information retrieval.</p>
+
+            <h3>Conversation Flow</h3>
+            <p>The "Prompt Vacation Days" topic implements a sophisticated flow:</p>
+            <ol>
+                <li><strong>Trigger Detection:</strong> Recognizes queries about vacation, PTO, time off, balance checks</li>
+                <li><strong>User Input Collection:</strong> Prompts for user email to personalize responses</li>
+                <li><strong>Generative AI Query:</strong> Uses "Create generative answers" node to search SharePoint knowledge base</li>
+                <li><strong>Data Processing:</strong> Extracts vacation balance and relevant policy information</li>
+                <li><strong>Response Delivery:</strong> Provides specific vacation day count plus detailed policy context with source citations</li>
+            </ol>
+        </section>
+
+        <section class="project-section">
+            <h2>Conversation Flow Diagram</h2>
+            <p>The "Prompt Vacation Days" topic uses a visual flow designer to orchestrate the conversation:</p>
+            <div style="text-align: center; margin: 2rem 0;">
+                <img src="../images/copilot-flow.png" alt="Copilot Studio Conversation Flow Diagram" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: var(--shadow);">
+                <p style="margin-top: 0.5rem; color: var(--text-gray); font-size: 0.9rem;">Copilot Studio authoring canvas showing the Prompt Vacation Days topic flow</p>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Demonstrated Results</h2>
+            <p>During testing, the agent successfully handled a vacation balance inquiry:</p>
+            
+            <div class="intro-box" style="background: var(--bg-light); border-left-color: var(--success-green);">
+                <p><strong>User Query:</strong> "vacation"</p>
+                <p><strong>Agent Response:</strong> "You have 35 vacation days left!"</p>
+                <p><strong>Additional Context Provided:</strong></p>
+                <ul>
+                    <li>Vacation Carry Over Reminder with complete policy details</li>
+                    <li>Information about 15 days paid time off annually</li>
+                    <li>Recommendations for work-life balance with 35+ days available</li>
+                    <li>Instructions for requesting time off through the Excalibur portal</li>
+                    <li>Source document reference for verification</li>
+                </ul>
+            </div>
+
+            <p>The agent demonstrated its ability to not only provide specific numerical data (35 vacation days) but also contextual policy guidance, showing the value of generative AI in delivering comprehensive, helpful responses.</p>
+
+            <div style="text-align: center; margin: 2rem 0;">
+                <img src="../images/copilot-conversation.png" alt="Copilot Studio Test Conversation" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: var(--shadow);">
+                <p style="margin-top: 0.5rem; color: var(--text-gray); font-size: 0.9rem;">Live test showing the agent providing vacation balance and detailed policy information</p>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Technologies & Tools Used</h2>
+            <div class="tech-tags">
+                <span class="tag">Microsoft Copilot Studio</span>
+                <span class="tag">Generative AI</span>
+                <span class="tag">SharePoint Online</span>
+                <span class="tag">Dataverse</span>
+                <span class="tag">Power Platform</span>
+                <span class="tag">Azure AI</span>
+                <span class="tag">Natural Language Processing</span>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Business Impact</h2>
+            <ul>
+                <li><strong>24/7 Availability:</strong> Employees can access HR policy information anytime, anywhere</li>
+                <li><strong>Reduced HR Workload:</strong> Automating repetitive inquiries frees HR staff for strategic work</li>
+                <li><strong>Consistent Information:</strong> All responses are based on official policy documents, eliminating inconsistencies</li>
+                <li><strong>Faster Response Times:</strong> Instant answers compared to email or ticket-based inquiries</li>
+                <li><strong>Improved Employee Experience:</strong> Self-service capabilities empower employees and reduce frustration</li>
+                <li><strong>Audit Trail:</strong> All interactions are logged with source citations for compliance</li>
+            </ul>
+        </section>
+
+        <section class="project-section">
+            <h2>Lessons Learned</h2>
+            <p>Building this Copilot Studio agent taught me several valuable lessons:</p>
+            <ul>
+                <li><strong>Knowledge Source Quality:</strong> The accuracy of generative AI responses depends heavily on well-organized, up-to-date source documents in SharePoint</li>
+                <li><strong>Topic Design:</strong> Breaking conversations into focused topics (greeting, vacation queries, etc.) creates more maintainable and reliable agents</li>
+                <li><strong>User Input Validation:</strong> Prompting for structured inputs like email addresses ensures the agent can retrieve personalized information</li>
+                <li><strong>Context Preservation:</strong> Implementing "Start Over" functionality is crucial for users who want to ask multiple unrelated questions</li>
+                <li><strong>Testing Importance:</strong> Thorough testing with diverse query phrasings reveals edge cases and improves trigger recognition</li>
+            </ul>
+        </section>
+
+        <section class="project-section">
+            <h2>Future Enhancements</h2>
+            <ul>
+                <li>Expand to additional HR topics (benefits, payroll, onboarding)</li>
+                <li>Integrate with HRIS systems for real-time PTO balance lookups</li>
+                <li>Add proactive notifications for upcoming vacation expirations</li>
+                <li>Implement multi-language support for global workforce</li>
+                <li>Create analytics dashboard to identify common employee questions and policy gaps</li>
+                <li>Add time-off request submission capability directly through the agent</li>
+            </ul>
+        </section>
+
+        <div class="cta-section">
+            <div class="cta-box">
+                <h2>Interested in AI-Powered Solutions?</h2>
+                <p>I specialize in building intelligent agents and automation solutions using Microsoft Copilot Studio, Power Platform, and Azure AI services.</p>
+                <div class="cta-buttons">
+                    <a href="../contact.html" class="btn-primary">Get in Touch</a>
+                    <a href="../projects.html" class="btn-secondary">View More Projects</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 João Meira. All rights reserved.</p>
+    </footer>
+</body>
+</html>
