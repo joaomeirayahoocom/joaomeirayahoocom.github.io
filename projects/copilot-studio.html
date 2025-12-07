@@ -127,20 +127,93 @@
 
         <section class="project-section">
             <h2>Demonstrated Results</h2>
-            <p>During testing, the agent successfully handled a vacation balance inquiry:</p>
+            <p>During testing, the agent successfully handled a vacation balance inquiry. Watch the live conversation demo below:</p>
             
-            <div class="intro-box" style="background: var(--bg-light); border-left-color: var(--success-green);">
-                <p><strong>User Query:</strong> "vacation"</p>
-                <p><strong>Agent Response:</strong> "You have 35 vacation days left!"</p>
-                <p><strong>Additional Context Provided:</strong></p>
-                <ul>
-                    <li>Vacation Carry Over Reminder with complete policy details</li>
-                    <li>Information about 15 days paid time off annually</li>
-                    <li>Recommendations for work-life balance with 35+ days available</li>
-                    <li>Instructions for requesting time off through the Excalibur portal</li>
-                    <li>Source document reference for verification</li>
-                </ul>
+            <div style="background: #1e1e1e; border-radius: 8px; padding: 2rem; margin: 2rem 0; font-family: 'Courier New', monospace; box-shadow: var(--shadow);">
+                <div style="background: #2d2d2d; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+                    <p style="color: #4FC3F7; margin: 0;"><strong>User:</strong></p>
+                    <p id="user-text" style="color: #E0E0E0; margin: 0.5rem 0 0 0; min-height: 1.5rem;"></p>
+                </div>
+                
+                <div style="background: #2d2d2d; padding: 1rem; border-radius: 4px; margin-bottom: 1rem;">
+                    <p style="color: #81C784; margin: 0;"><strong>Agent:</strong></p>
+                    <p id="agent-text" style="color: #E0E0E0; margin: 0.5rem 0 0 0; min-height: 1.5rem;"></p>
+                </div>
+                
+                <div style="background: #2d2d2d; padding: 1rem; border-radius: 4px;">
+                    <p style="color: #81C784; margin: 0;"><strong>Agent - Vacation Carry Over Reminder:</strong></p>
+                    <div id="policy-text" style="color: #E0E0E0; margin: 0.5rem 0 0 0; min-height: 1.5rem;"></div>
+                </div>
             </div>
+
+            <script>
+                const userMessage = "vacation";
+                const agentMessage = "You have 35 vacation days left!";
+                const policyDetails = `• Employees receive 15 days of paid time off (PTO) annually. The policy does not specify a maximum carry over for unused vacation days, so it is recommended to review the full policy document on the Excalibur intranet or contact HR for clarification.
+
+• With 35 days of vacation left this year, you are encouraged to plan and take time off to recharge and maintain a healthy work-life balance.
+
+• To request time off, submit your request through the Excalibur portal at least 2 weeks in advance.
+
+Reference: Inception_Excalibur_Empl...`;
+
+                let userIndex = 0;
+                let agentIndex = 0;
+                let policyIndex = 0;
+                let stage = 0;
+
+                function typeWriter() {
+                    const userEl = document.getElementById('user-text');
+                    const agentEl = document.getElementById('agent-text');
+                    const policyEl = document.getElementById('policy-text');
+
+                    if (stage === 0) {
+                        // Type user message
+                        if (userIndex < userMessage.length) {
+                            userEl.textContent += userMessage.charAt(userIndex);
+                            userIndex++;
+                            setTimeout(typeWriter, 100);
+                        } else {
+                            stage = 1;
+                            setTimeout(typeWriter, 500);
+                        }
+                    } else if (stage === 1) {
+                        // Type agent message
+                        if (agentIndex < agentMessage.length) {
+                            agentEl.textContent += agentMessage.charAt(agentIndex);
+                            agentIndex++;
+                            setTimeout(typeWriter, 50);
+                        } else {
+                            stage = 2;
+                            setTimeout(typeWriter, 500);
+                        }
+                    } else if (stage === 2) {
+                        // Type policy details
+                        if (policyIndex < policyDetails.length) {
+                            policyEl.textContent += policyDetails.charAt(policyIndex);
+                            policyIndex++;
+                            setTimeout(typeWriter, 20);
+                        } else {
+                            // Wait and restart
+                            setTimeout(() => {
+                                userEl.textContent = '';
+                                agentEl.textContent = '';
+                                policyEl.textContent = '';
+                                userIndex = 0;
+                                agentIndex = 0;
+                                policyIndex = 0;
+                                stage = 0;
+                                setTimeout(typeWriter, 2000);
+                            }, 3000);
+                        }
+                    }
+                }
+
+                // Start typing animation when page loads
+                window.addEventListener('DOMContentLoaded', () => {
+                    setTimeout(typeWriter, 1000);
+                });
+            </script>
 
             <p>The agent demonstrated its ability to not only provide specific numerical data (35 vacation days) but also contextual policy guidance, showing the value of generative AI in delivering comprehensive, helpful responses.</p>
 
