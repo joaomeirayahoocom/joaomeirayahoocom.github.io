@@ -1,68 +1,74 @@
----
-title: Copilot Studio Enterprise Agents
-layout: default
----
+João Meira
+Home
+Projects
+Skills
+Experience
+Certifications
+PDF
+Contact
+Projects Portfolio
+Showcasing Azure AI, GitHub Security, and Cloud Architecture implementations
 
-[← Back to Home](../)
+Latest Project
+Copilot Studio Enterprise Agents
+Employee Self Service and Device Request agents with SharePoint/Dataverse integration. Built using Microsoft Copilot Studio with generative AI capabilities.
 
-# Copilot Studio Enterprise Agents
-## Employee Self Service & Device Request Automation
+Copilot Studio SharePoint Dataverse Power Platform Generative AI
+View Details →
+GitHub-Hosted Runners with Azure VNet Integration
+GitHub Enterprise Cloud runners with Azure VNet integration for private networking. Includes subnet delegation, network settings resource creation, and GitHubId hash configuration for Dominion Energy.
 
-**Date:** November 2025  
-**Technologies:** Microsoft Copilot Studio, SharePoint, Dataverse, Power Platform, Azure AI  
-**Certification:** APL-7008 - Create agents in Microsoft Copilot Studio
+GitHub Enterprise Azure VNet DevOps Private Networking
+View Details →
+GitHub Advanced Security Implementation
+Enterprise-wide GitHub Advanced Security deployment with Secret Scanning, Code Scanning (CodeQL), and Dependabot automation across organization repositories.
 
----
+GitHub Security CodeQL DevSecOps Azure Entra ID
+View Details →
+Azure AI Document Intelligence
+Multilingual document processing using Azure AI services including Content Safety, Computer Vision OCR, Document Intelligence, and Azure OpenAI integration.
 
-## Problem & Business Context
+Azure AI Document Intelligence Computer Vision Python SDK REST API
+View Details →
+Power Platform ALM Pipeline
+Automated deployment pipelines for Power Platform solutions using GitHub and Azure DevOps with environment management and connection references.
 
-Enterprise organizations face significant challenges managing employee requests through traditional service desk systems. Common HR and IT requests create bottlenecks, with employees waiting hours or days for responses to routine questions about vacation policies, device requests, and company benefits.
+Power Platform Azure DevOps GitHub CI/CD ALM
+View Details →
+Azure Landing Zones with Terraform
+Enterprise Azure Landing Zones deployment using Terraform Accelerator with GitHub Actions. Includes 256-policy security compliance and custom archetypes.
 
-**Key Challenges:**
-- High volume of repetitive employee inquiries
-- Service desk agents spending 60-70% of time on routine requests
-- Inconsistent responses across different service channels
-- Limited availability outside business hours
-- Manual lookup processes across multiple systems
+Azure Landing Zones Terraform CAF GitHub Actions Security
+View Details →
+Azure Synapse Data Pipeline Automation
+Automated Key Vault Linked Services for Synapse workspaces with Azure Entra ID authentication and SQL Pool migration.
 
----
+Azure Synapse Key Vault Azure Entra ID Data Engineering
+View Details →
+Custom Vision Object Detection Model
+Azure Machine Learning data labeling project for object detection with COCO file generation and Custom Vision model deployment.
 
-## Solution Overview
-
-Built intelligent conversational agents using Microsoft Copilot Studio to automate employee self-service requests. The solution integrates SharePoint knowledge bases and Dataverse for real-time data retrieval, providing 24/7 automated assistance for common employee needs.
-
-**Two Primary Agents:**
-
-### 1. Employee Self Service Agent
-Handles vacation inquiries, benefits information, and policy questions by integrating with:
-- **SharePoint knowledge sources** for company policy documents
-- **Dataverse tables** for personalized employee data (vacation balances, benefits eligibility)
-- **Generative AI** for natural language understanding and contextual responses
-
-### 2. Device Request Agent
-Automates IT equipment requests with:
-- Dynamic device catalog from SharePoint
-- Device type and model selection workflows
-- Email notification system for request confirmations
-- Integration with IT ticketing systems
-
----
-
-## Technical Implementation
-
-### Architecture Components
-
-**Knowledge Integration:**
-- SharePoint document libraries serving as knowledge sources
-- Real-time document indexing and search
-- PDF policy document processing (vacation policies, benefits guides)
-
-**Data Layer:**
-- Custom Dataverse tables for employee records
-- Vacation balance tracking and calculation
-- Device inventory and availability
-
-**Conversational Design:**
-- Multi-turn dialog flows with context retention
-- Variable management for personalization (User.Email, employeeNumber)
-- Conditional branching based on user resp
+Azure ML Custom Vision Object Detection Computer Vision
+View Details →
+Project Categories
+🤖 Azure AI & ML
+Copilot Studio Agents
+Document Intelligence
+Custom Vision Models
+Azure OpenAI Integration
+🔒 Security & DevSecOps
+GitHub Advanced Security
+Secret & Code Scanning
+Azure VNet Integration
+Security Compliance
+☁️ Cloud Architecture
+Azure Landing Zones
+Terraform Automation
+Network Security
+Governance & Policies
+⚙️ DevOps & Automation
+Power Platform ALM
+Azure DevOps Pipelines
+GitHub Actions
+Infrastructure as Code
+© 2025 João Meira. All rights reserved.
