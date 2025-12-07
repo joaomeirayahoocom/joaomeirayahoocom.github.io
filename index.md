@@ -1,28 +1,24 @@
----
-title: João Meira - Azure Solutions Architect
-layout: default
----
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
 
-# João Meira
-## Azure Solutions Architect | AI-102 | APL-7008
+<nav>
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
 
-Azure Solutions Architect with 15+ years implementing Microsoft enterprise solutions. Specialized in Azure AI services, Copilot Studio, GitHub Advanced Security, and DevOps automation.
+<header>
+    <h1>João Meira</h1>
+    <h2>Azure Solutions Architect | AI-102 | APL-7008 | GitHub Advanced Security</h2>
+</header>
 
-### Featured Projects
-
-#### [Copilot Studio Enterprise Agents](./projects/copilot-studio)
-Employee Self Service and Device Request agents with SharePoint/Dataverse integration
-
-#### [Azure AI Document Intelligence](./projects/azure-ai)
-Multilingual document processing with Azure AI services
-
-#### [GitHub Advanced Security Implementation](./projects/github-security)
-Secret scanning, code scanning, and Dependabot automation
-
-#### [Power Platform ALM Pipeline](./projects/power-platform)
-Automated deployment pipelines for Power Platform solutions
-
-### Contact
-- Email: joaogmn@yahoo.com
-- Phone: (925) 300-8700
-- [LinkedIn Profile](https://linkedin.com/in/joaomeira)
+<main>
+    <div class="intro">
+        <p>Azure Solutions Architect with 15+ years implementing Microsoft enterprise solutions. Specialized in Azure AI services, Copilot Studio, GitHub Advanced Security, Landing Zones, Terraform automation, and DevOps pipelines.</p>
+    </div>
