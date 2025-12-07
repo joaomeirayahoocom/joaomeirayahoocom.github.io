@@ -37,12 +37,12 @@ nav a {
 }
 
 nav a:hover {
-    color: #0078D4;
+    color: #005A9E;
 }
 
 /* Header Section */
 header {
-    background: #0078D4;
+    background: #005A9E;
     color: white;
     padding: 4rem 2rem;
     text-align: center;
@@ -96,7 +96,7 @@ main {
 }
 
 .project-header {
-    background: #0078D4;
+    background: #005A9E;
     padding: 3rem 1.5rem;
     text-align: center;
 }
@@ -118,7 +118,7 @@ main {
 
 .project-link {
     display: inline-block;
-    color: #0078D4;
+    color: #005A9E;
     text-decoration: none;
     font-weight: 500;
     transition: color 0.3s;
@@ -138,7 +138,7 @@ main {
 
 .tech-tag {
     background: #e3f2fd;
-    color: #0078D4;
+    color: #005A9E;
     padding: 0.3rem 0.8rem;
     border-radius: 20px;
     font-size: 0.85rem;
@@ -163,7 +163,7 @@ main {
 }
 
 .contact a {
-    color: #0078D4;
+    color: #005A9E;
     text-decoration: none;
 }
 
@@ -192,7 +192,7 @@ main {
 }
 
 .project-detail h3 {
-    color: #0078D4;
+    color: #005A9E;
     margin-top: 2rem;
     margin-bottom: 1rem;
 }
@@ -205,7 +205,7 @@ main {
 .back-link {
     display: inline-block;
     margin-bottom: 2rem;
-    color: #0078D4;
+    color: #005A9E;
     text-decoration: none;
 }
 
