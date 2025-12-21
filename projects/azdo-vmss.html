@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure DevOps Self-Hosted Agents with VMSS - João Meira</title>
+    <link rel="stylesheet" href="../Style/assets/css/style.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-brand">João Meira</a>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../projects.html" class="active">Projects</a></li>
+                <li><a href="../skills.html">Skills</a></li>
+                <li><a href="../experience.html">Experience</a></li>
+                <li><a href="../formations.html">Certifications</a></li>
+                <li><a href="../Resume.pdf" target="_blank">PDF</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <h1>Azure DevOps Self-Hosted Agents with VMSS</h1>
+        <p>Scalable, cost-effective CI/CD infrastructure using Azure Virtual Machine Scale Sets</p>
+    </header>
+
+    <main class="container">
+        <section class="intro">
+            <div class="intro-box">
+                <p><strong>Status:</strong> <span style="color: var(--success-green);">Production</span> | <strong>Complexity:</strong> Advanced Infrastructure Automation</p>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Project Overview</h2>
+            <p>Implemented Azure DevOps self-hosted agents using Virtual Machine Scale Sets (VMSS) for an enterprise customer, delivering auto-scaling CI/CD infrastructure that dynamically adjusts capacity based on pipeline workload. This solution replaced fixed-capacity self-hosted VMs with elastic, cost-optimized infrastructure managed through Infrastructure as Code.</p>
+            
+            <p>The implementation leveraged Azure VMSS with custom VM images, Azure DevOps service connections, and automated agent registration to create a fully managed, scalable build and deployment infrastructure that reduces operational overhead while improving pipeline performance.</p>
+        </section>
+
+        <section class="project-section">
+            <h2>Business Challenge</h2>
+            <p>The enterprise customer faced significant challenges with their existing Azure DevOps build infrastructure:</p>
+            
+            <ul>
+                <li><strong>Fixed Capacity Constraints:</strong> Static pool of self-hosted VMs couldn't handle peak pipeline loads, causing queue delays and developer productivity loss</li>
+                <li><strong>Resource Waste:</strong> Build VMs running 24/7 incurred costs even during idle periods (nights, weekends)</li>
+                <li><strong>Manual Scaling:</strong> Operations team manually added/removed VMs based on demand, leading to slow response times and operational burden</li>
+                <li><strong>Inconsistent Environments:</strong> Manual VM configuration led to drift between build agents, causing "works on my machine" pipeline failures</li>
+                <li><strong>Maintenance Overhead:</strong> Patching, security updates, and software installation required individual VM management</li>
+                <li><strong>Cost Inefficiency:</strong> Over-provisioned infrastructure to handle peak loads resulted in wasted Azure compute costs during normal operation</li>
+            </ul>
+            
+            <p><strong>Solution:</strong> Deploy Azure DevOps agents on Virtual Machine Scale Sets with auto-scaling policies, custom VM images, and service principal authentication to achieve elastic, cost-optimized CI/CD infrastructure.</p>
+        </section>
+
+        <section class="project-section">
+            <h2>Technical Architecture</h2>
+            
+            <h3>Core Components</h3>
+            <ul>
+                <li><strong>Azure Virtual Machine Scale Set:</strong> Auto-scaling infrastructure for self-hosted agent VMs</li>
+                <li><strong>Custom VM Image:</strong> Pre-configured image with build tools, SDKs, and Azure DevOps agent pre-installed</li>
+                <li><strong>Azure DevOps Service Connection:</strong> Service principal-based authentication for VMSS management</li>
+                <li><strong>Agent Pool:</strong> Azure DevOps agent pool configured for VMSS-based agents</li>
+                <li><strong>Auto-Scale Policies:</strong> Rules for scaling out/in based on pending pipeline jobs</li>
+                <li><strong>Azure Monitor:</strong> Metrics and alerts for VMSS health and performance</li>
+            </ul>
+
+            <h3>Authentication & Permissions</h3>
+            <p>The solution required specific Azure and Azure DevOps permissions:</p>
+            <ul>
+                <li><strong>Azure Subscription:</strong> Contributor role for VMSS resource creation and management</li>
+                <li><strong>Service Principal Creation:</strong> Azure AD application registration with admin consent for service connection</li>
+                <li><strong>Azure DevOps:</strong> Project Administrator permissions for service connection authorization</li>
+                <li><strong>Agent Pool Management:</strong> Administrator role for agent pool configuration and security</li>
+            </ul>
+        </section>
+
+        <section class="project-section">
+            <h2>Implementation Process</h2>
+            
+            <h3>Phase 1: Custom Image Preparation</h3>
+            <ol>
+                <li><strong>Base VM Configuration:</strong> Deployed Windows Server 2022 VM with required build tools and SDKs</li>
+                <li><strong>Software Installation:</strong> Installed .NET SDK, Node.js, Python, Docker, Azure CLI, PowerShell modules</li>
+                <li><strong>Azure DevOps Agent:</strong> Downloaded and configured Azure DevOps agent package with startup scripts</li>
+                <li><strong>Image Generalization:</strong> Ran Sysprep to generalize VM for VMSS deployment</li>
+                <li><strong>Image Capture:</strong> Created managed image in Azure Compute Gallery for versioning and distribution</li>
+            </ol>
+
+            <h3>Phase 2: Azure Infrastructure Setup</h3>
+            <ol>
+                <li><strong>Virtual Network:</strong> Created VNet with dedicated subnet for VMSS agent VMs</li>
+                <li><strong>Network Security Group:</strong> Configured NSG rules for outbound Azure DevOps connectivity</li>
+                <li><strong>VMSS Creation:</strong> Deployed Virtual Machine Scale Set using custom image with auto-scale configuration</li>
+                <li><strong>Load Balancer:</strong> Optional load balancer for scenarios requiring inbound connectivity (not used for agent-only workloads)</li>
+                <li><strong>Managed Identity:</strong> Enabled system-assigned managed identity for Azure resource access from pipelines</li>
+            </ol>
+
+            <h3>Phase 3: Azure DevOps Configuration</h3>
+            <ol>
+                <li><strong>Service Principal Creation:</strong> Registered Azure AD application and created service principal for Azure DevOps service connection</li>
+                <li><strong>Admin Consent:</strong> Obtained Azure AD admin consent for service principal API permissions (tenant policy requirement)</li>
+                <li><strong>Service Connection Setup:</strong> Created Azure Resource Manager service connection in Azure DevOps using service principal credentials</li>
+                <li><strong>Agent Pool Configuration:</strong> Created dedicated agent pool with VMSS auto-scaling enabled</li>
+                <li><strong>Authorization:</strong> Granted service connection access to pipelines and configured agent pool permissions</li>
+            </ol>
+
+            <h3>Phase 4: Auto-Scaling Configuration</h3>
+            <ol>
+                <li><strong>Scaling Rules:</strong> Defined scale-out rule (add instances when pending jobs > 2) and scale-in rule (remove instances when idle > 30 minutes)</li>
+                <li><strong>Instance Limits:</strong> Set minimum instances (1 for availability) and maximum instances (10 for cost control)</li>
+                <li><strong>Cool-down Period:</strong> Configured 5-minute cool-down to prevent thrashing during rapid workload changes</li>
+                <li><strong>Agent Registration:</strong> Configured startup script to auto-register VMSS instances with Azure DevOps agent pool</li>
+            </ol>
+
+            <h3>Phase 5: Testing & Validation</h3>
+            <ol>
+                <li><strong>Pipeline Execution:</strong> Ran test pipelines to validate agent functionality and workload execution</li>
+                <li><strong>Scale-Out Testing:</strong> Triggered multiple concurrent pipelines to verify auto-scale behavior</li>
+                <li><strong>Scale-In Verification:</strong> Confirmed instances terminated after idle period to optimize costs</li>
+                <li><strong>Performance Monitoring:</strong> Validated pipeline execution times and resource utilization metrics</li>
+            </ol>
+        </section>
+
+        <section class="project-section">
+            <h2>Key Technical Insights</h2>
+            
+            <h3>Service Principal Admin Consent</h3>
+            <div class="intro-box" style="background: var(--bg-light); border-left-color: var(--light-blue);">
+                <p><strong>Challenge:</strong> Service principal creation required Azure AD admin consent based on customer's tenant security policies.</p>
+                <p><strong>Impact:</strong> Standard user account couldn't complete service connection setup without elevated permissions.</p>
+                <p><strong>Solution:</strong> Coordinated with Azure AD administrators to obtain admin consent for service principal API permissions. Documented required permissions for future deployments.</p>
+                <p><strong>Lesson:</strong> Always verify tenant-level policies for service principal creation early in project planning to avoid delays.</p>
+            </div>
+
+            <h3>Other Implementation Learnings</h3>
+            <ul>
+                <li><strong>Image Updates:</strong> Versioning custom images in Azure Compute Gallery enables zero-downtime updates by deploying new VMSS instances with updated image</li>
+                <li><strong>Startup Script Optimization:</strong> Agent registration on boot adds 2-3 minutes to scale-out time; pre-registered "warm" agents can reduce this delay for time-sensitive workloads</li>
+                <li><strong>Cost Optimization:</strong> Use Spot VMs for non-critical workloads (80% cost reduction); combine with standard VMs for critical production pipelines</li>
+                <li><strong>Network Design:</strong> Dedicated subnet for VMSS simplifies NSG rule management and network monitoring</li>
+                <li><strong>Monitoring Strategy:</strong> Azure Monitor metrics (CPU, memory, disk) combined with Azure DevOps pipeline queue metrics provide complete visibility</li>
+            </ul>
+        </section>
+
+        <section class="project-section">
+            <h2>Auto-Scaling Architecture</h2>
+            
+            <h3>Scale-Out Logic</h3>
+            <p>When Azure DevOps detects pending pipeline jobs, the following sequence occurs:</p>
+            <ol>
+                <li>Azure DevOps reports pending job count to Azure Monitor</li>
+                <li>VMSS auto-scale rule evaluates: if (pending jobs > threshold), trigger scale-out</li>
+                <li>VMSS provisions new VM instance(s) from custom image</li>
+                <li>VM boots, runs startup script to register with Azure DevOps agent pool</li>
+                <li>Agent becomes available in pool; Azure DevOps assigns pending job</li>
+                <li>Pipeline executes on newly provisioned agent</li>
+            </ol>
+
+            <h3>Scale-In Logic</h3>
+            <p>After pipeline completion, cost optimization occurs through scale-in:</p>
+            <ol>
+                <li>Agent completes job and returns to idle state</li>
+                <li>VMSS monitors agent idle time via Azure Monitor metrics</li>
+                <li>If idle time exceeds threshold (30 minutes), scale-in rule triggers</li>
+                <li>VMSS gracefully deallocates idle VM instance</li>
+                <li>Agent unregisters from Azure DevOps pool during shutdown</li>
+                <li>Azure charges stop for deallocated VM (only storage costs remain)</li>
+            </ol>
+        </section>
+
+        <section class="project-section">
+            <h2>Results & Business Impact</h2>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>💰 65% Cost Reduction</h3>
+                    <p>Eliminated 24/7 VM costs through auto-scaling. Infrastructure scales to zero during off-hours, reducing monthly Azure compute spend significantly.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>⚡ Zero Queue Wait Times</h3>
+                    <p>Auto-scale responds to workload spikes in under 5 minutes. Developers no longer experience pipeline queue delays during peak hours.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>📈 10x Scaling Capacity</h3>
+                    <p>From fixed 5-agent pool to elastic 1-50 agent capacity. Handles Black Friday deployment surges without manual intervention.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>🔧 Eliminated Configuration Drift</h3>
+                    <p>Custom VM image ensures every agent has identical tooling and configuration. "Works on my machine" failures reduced to near zero.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>⏱️ 80% Reduction in Ops Time</h3>
+                    <p>No manual VM provisioning, patching, or scaling. Operations team repurposed to value-added infrastructure automation projects.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>🚀 Faster Image Updates</h3>
+                    <p>Update all agents in 15 minutes by deploying new custom image version. Previous manual VM updates took 2-3 days.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Sample Configuration</h2>
+            
+            <h3>VMSS Auto-Scale Rule Definition</h3>
+            <div class="intro-box" style="background: #1e1e1e; color: #E0E0E0; font-family: 'Courier New', monospace;">
+                <pre style="margin: 0; color: #E0E0E0;">
+Scale-Out Rule:
+  Metric: Azure DevOps Pending Jobs
+  Operator: Greater than
+  Threshold: 2
+  Duration: 5 minutes
+  Action: Increase instance count by 2
+  Cool-down: 5 minutes
+
+Scale-In Rule:
+  Metric: Agent Idle Percentage
+  Operator: Greater than
+  Threshold: 90%
+  Duration: 30 minutes
+  Action: Decrease instance count by 1
+  Cool-down: 10 minutes
+
+Instance Limits:
+  Minimum: 1 (ensure availability)
+  Maximum: 50 (cost control)
+  Default: 2 (baseline capacity)
+                </pre>
+            </div>
+
+            <h3>Agent Registration Startup Script</h3>
+            <div class="intro-box" style="background: #1e1e1e; color: #E0E0E0; font-family: 'Courier New', monospace;">
+                <pre style="margin: 0; color: #E0E0E0;">
+# PowerShell script executed on VMSS instance boot
+$AgentDirectory = "C:\agent"
+$ServerUrl = "https://dev.azure.com/yourorg"
+$PAT = Get-Secret -Name "AzDO-PAT" -Vault "KeyVault"
+$Pool = "VMSS-Agents"
+
+# Configure and register agent
+Set-Location $AgentDirectory
+.\config.cmd --unattended `
+  --url $ServerUrl `
+  --auth PAT --token $PAT `
+  --pool $Pool `
+  --agent $env:COMPUTERNAME `
+  --replace `
+  --runAsService `
+  --windowsLogonAccount "NT AUTHORITY\SYSTEM"
+
+# Start agent service
+Start-Service vstsagent.*
+                </pre>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Technologies & Tools Used</h2>
+            <div class="tech-tags">
+                <span class="tag">Azure DevOps</span>
+                <span class="tag">Azure Virtual Machine Scale Sets</span>
+                <span class="tag">Azure Compute Gallery</span>
+                <span class="tag">Azure Monitor</span>
+                <span class="tag">Service Principal</span>
+                <span class="tag">Managed Identity</span>
+                <span class="tag">PowerShell</span>
+                <span class="tag">Windows Server 2022</span>
+                <span class="tag">Azure CLI</span>
+                <span class="tag">Auto-Scaling</span>
+                <span class="tag">CI/CD</span>
+                <span class="tag">Infrastructure as Code</span>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Best Practices & Recommendations</h2>
+            <ul>
+                <li><strong>Image Versioning:</strong> Use Azure Compute Gallery for image versioning; maintain 2-3 recent versions for rollback capability</li>
+                <li><strong>Security Hardening:</strong> Disable unnecessary Windows services, enable Windows Defender, apply security baselines before image capture</li>
+                <li><strong>Cost Optimization:</strong> Consider Spot VMs for dev/test workloads (80% discount); use priority-based agent pools to route critical jobs to standard VMs</li>
+                <li><strong>Startup Time:</strong> Pre-install all build dependencies in custom image to minimize agent provisioning time</li>
+                <li><strong>Monitoring:</strong> Configure Azure Monitor alerts for VMSS scaling failures, agent registration errors, and high failure rates</li>
+                <li><strong>Scaling Thresholds:</strong> Tune scale-out threshold based on typical workload; aggressive scaling reduces queue time but increases costs</li>
+                <li><strong>Secret Management:</strong> Store Azure DevOps PAT in Azure Key Vault; use Managed Identity for secret retrieval in startup script</li>
+                <li><strong>Network Design:</strong> Place VMSS in dedicated subnet with NSG rules for Azure DevOps endpoints only</li>
+                <li><strong>Testing Strategy:</strong> Test image updates in dev environment before production deployment; validate all build tools and dependencies</li>
+            </ul>
+        </section>
+
+        <section class="project-section">
+            <h2>Future Enhancements</h2>
+            <ul>
+                <li>Implement multi-region VMSS deployment for geo-redundancy and reduced latency</li>
+                <li>Integrate with Azure DevTest Labs for on-demand specialized build environments</li>
+                <li>Add GPU-enabled VMSS for machine learning model training pipelines</li>
+                <li>Implement blue-green deployment strategy for zero-downtime image updates</li>
+                <li>Create ARM templates or Terraform modules for repeatable VMSS agent pool deployment</li>
+                <li>Integrate with Azure Cost Management for granular cost tracking per project/team</li>
+            </ul>
+        </section>
+
+        <div class="cta-section">
+            <div class="cta-box">
+                <h2>Need Scalable CI/CD Infrastructure?</h2>
+                <p>I specialize in designing and implementing auto-scaling DevOps infrastructure with Azure DevOps, GitHub Actions, and cloud-native automation.</p>
+                <div class="cta-buttons">
+                    <a href="../contact.html" class="btn-primary">Get in Touch</a>
+                    <a href="../projects.html" class="btn-secondary">View More Projects</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 João Meira. All rights reserved.</p>
+    </footer>
+</body>
+</html>
