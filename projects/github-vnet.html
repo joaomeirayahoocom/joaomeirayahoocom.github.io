@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub-Hosted Runners with Azure VNet Integration - João Meira</title>
+    <link rel="stylesheet" href="../Style/assets/css/style.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-brand">João Meira</a>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../projects.html" class="active">Projects</a></li>
+                <li><a href="../skills.html">Skills</a></li>
+                <li><a href="../experience.html">Experience</a></li>
+                <li><a href="../formations.html">Certifications</a></li>
+                <li><a href="../Resume.pdf" target="_blank">PDF</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <h1>GitHub-Hosted Runners with Azure VNet Integration</h1>
+        <p>Secure CI/CD workflows with private Azure resource access for enterprise customers</p>
+    </header>
+
+    <main class="container">
+        <section class="intro">
+            <div class="intro-box">
+                <p><strong>Status:</strong> <span style="color: var(--success-green);">Production</span> | <strong>Complexity:</strong> Advanced Enterprise Architecture</p>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Project Overview</h2>
+            <p>Implemented GitHub-hosted runners with Azure Virtual Network integration for an enterprise customer, enabling secure CI/CD workflows with direct access to Azure resources behind private endpoints. This solution eliminated the need for self-hosted runner infrastructure while maintaining enterprise-grade security and compliance requirements.</p>
+            
+            <p>The implementation leveraged GitHub Enterprise Cloud's network integration capabilities with Azure, creating a seamless bridge between GitHub Actions workflows and private Azure resources including storage accounts, databases, and application services secured with private endpoints.</p>
+        </section>
+
+        <section class="project-section">
+            <h2>Business Challenge</h2>
+            <p>The enterprise customer needed to implement CI/CD pipelines using GitHub Actions but faced critical security constraints:</p>
+            
+            <ul>
+                <li><strong>Private Endpoint Requirement:</strong> All Azure resources (storage accounts, databases, key vaults) were secured with private endpoints and not accessible from public internet</li>
+                <li><strong>No Self-Hosted Infrastructure:</strong> Customer wanted to avoid the operational overhead of managing self-hosted runners (patching, scaling, security hardening)</li>
+                <li><strong>Network Isolation:</strong> Workflows needed to execute within the customer's Azure Virtual Network to access private resources</li>
+                <li><strong>Enterprise Compliance:</strong> Solution had to meet corporate security policies requiring all build/deployment traffic to stay within controlled network boundaries</li>
+                <li><strong>Scalability:</strong> Infrastructure needed to handle variable workload demands without manual intervention</li>
+            </ul>
+            
+            <p><strong>Solution:</strong> Configure GitHub-hosted runners with Azure VNet integration, allowing runners to receive private IP addresses from the customer's Azure subnet while maintaining GitHub's managed service benefits.</p>
+        </section>
+
+        <section class="project-section">
+            <h2>Technical Architecture</h2>
+            
+            <h3>Infrastructure Components</h3>
+            <ul>
+                <li><strong>Azure Virtual Network:</strong> 10.100.0.0/16 address space with dedicated runner subnet 10.100.10.0/24</li>
+                <li><strong>Subnet Delegation:</strong> Delegated subnet to GitHub.Network resource provider for runner placement</li>
+                <li><strong>GitHub Enterprise Cloud:</strong> Organization-level runner configuration with network integration</li>
+                <li><strong>Network Settings Resource:</strong> Azure resource linking GitHub Enterprise to VNet using GitHubId hash</li>
+                <li><strong>Private Endpoints:</strong> Existing customer infrastructure for Storage, Key Vault, SQL Database</li>
+            </ul>
+
+            <h3>Key Configuration Requirements</h3>
+            <p>The implementation required specific Azure permissions and GitHub Enterprise access:</p>
+            <ul>
+                <li>Azure Subscription Contributor role for resource creation</li>
+                <li>Network Contributor role for VNet and subnet configuration</li>
+                <li>GitHub Enterprise Owner permissions for network settings and runner group management</li>
+                <li>Resource provider registration for GitHub.Network in Azure subscription</li>
+            </ul>
+        </section>
+
+        <section class="project-section">
+            <h2>Implementation Process</h2>
+            
+            <h3>Phase 1: Azure Infrastructure Setup</h3>
+            <ol>
+                <li><strong>Resource Provider Registration:</strong> Registered Microsoft.GitHub.Network provider in Azure subscription to enable GitHub resource creation</li>
+                <li><strong>Virtual Network Configuration:</strong> Created dedicated VNet (10.100.0.0/16) with runner subnet (10.100.10.0/24)</li>
+                <li><strong>Subnet Delegation:</strong> Delegated subnet to GitHub.Network/networkSettings to allow GitHub to place runner resources</li>
+                <li><strong>Network Security Groups:</strong> Configured NSG rules to allow outbound internet access for package downloads while maintaining inbound security</li>
+            </ol>
+
+            <h3>Phase 2: GitHub Enterprise Configuration</h3>
+            <ol>
+                <li><strong>GitHub Enterprise Database ID:</strong> Retrieved GitHubId hash from GitHub Enterprise page source (required for network settings resource creation)</li>
+                <li><strong>Network Settings Resource:</strong> Created Azure resource linking GitHub Enterprise to VNet using GitHubId, subscription, and subnet details</li>
+                <li><strong>Runner Group Creation:</strong> Configured runner group in GitHub Enterprise with network settings attachment</li>
+                <li><strong>Repository Access Configuration:</strong> Set repository access at BOTH enterprise and organization levels (critical discovery - see Key Learnings)</li>
+            </ol>
+
+            <h3>Phase 3: Validation and Testing</h3>
+            <ol>
+                <li><strong>Test Workflow Creation:</strong> Developed GitHub Actions workflow to display runner's assigned IP address</li>
+                <li><strong>Network Verification:</strong> Confirmed runner received IP from 10.100.10.x subnet range</li>
+                <li><strong>Private Endpoint Access:</strong> Validated connectivity to storage accounts and databases with private endpoints</li>
+                <li><strong>Security Validation:</strong> Confirmed no public internet exposure of private resources</li>
+            </ol>
+        </section>
+
+        <section class="project-section">
+            <h2>Key Learnings & Challenges Solved</h2>
+            
+            <h3>Critical Discovery: Dual-Level Repository Access</h3>
+            <div class="intro-box" style="background: var(--bg-light); border-left-color: var(--light-blue);">
+                <p><strong>Challenge:</strong> Initial configuration set repository access at Enterprise level only, but workflows failed to use network-integrated runners.</p>
+                <p><strong>Root Cause:</strong> GitHub requires repository access configuration at BOTH Enterprise AND Organization levels for network-integrated runner groups.</p>
+                <p><strong>Solution:</strong> Configured repository access in two locations:</p>
+                <ul>
+                    <li>Enterprise Settings → Hosted compute networking → Runner group → Repository access</li>
+                    <li>Organization Settings → Actions → Runner groups → Repository access</li>
+                </ul>
+                <p><strong>Result:</strong> Workflows successfully routed to network-integrated runners after dual-level configuration.</p>
+            </div>
+
+            <h3>Other Technical Insights</h3>
+            <ul>
+                <li><strong>GitHubId Hash Location:</strong> The GitHub Enterprise Database ID (hash) required for network settings creation is not displayed in UI but available in page source HTML</li>
+                <li><strong>Subnet Sizing:</strong> Recommended /24 subnet (254 addresses) to accommodate scaling; GitHub consumes multiple IPs per concurrent runner</li>
+                <li><strong>Network Settings Propagation:</strong> Configuration changes take 5-10 minutes to propagate; test workflows may initially fail until fully deployed</li>
+                <li><strong>Runner Group Naming:</strong> Use descriptive names indicating network configuration (e.g., "azure-vnet-runners") to distinguish from standard runners</li>
+            </ul>
+        </section>
+
+        <section class="project-section">
+            <h2>Results & Business Impact</h2>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>🔒 Enhanced Security</h3>
+                    <p>Zero public internet exposure of private Azure resources. All CI/CD traffic flows through customer's controlled VNet with NSG protection.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>⚙️ Reduced Operational Overhead</h3>
+                    <p>Eliminated need for self-hosted runner infrastructure management (no VMs to patch, scale, or secure). GitHub manages runner lifecycle.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>📈 Automatic Scaling</h3>
+                    <p>Runners scale automatically based on workflow demand. No manual intervention or capacity planning required.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>✅ Compliance Achievement</h3>
+                    <p>Met enterprise security policies requiring all build/deployment processes within controlled network boundaries.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>🚀 Developer Productivity</h3>
+                    <p>Workflows access private resources (storage, databases) seamlessly without complex VPN or networking workarounds.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>💰 Cost Optimization</h3>
+                    <p>Pay-per-use GitHub-hosted runner model vs. always-on self-hosted VM infrastructure. Reduced Azure compute costs.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Technical Implementation Details</h2>
+            
+            <h3>Network Settings Resource Configuration</h3>
+            <p>The Azure network settings resource serves as the bridge between GitHub Enterprise and Azure VNet:</p>
+            
+            <div class="intro-box" style="background: #1e1e1e; color: #E0E0E0; font-family: 'Courier New', monospace;">
+                <pre style="margin: 0; color: #E0E0E0;">
+Resource Type: Microsoft.GitHub/networkSettings
+Properties:
+  - businessId: [GitHub Enterprise Database ID hash]
+  - subnetId: /subscriptions/{sub-id}/resourceGroups/{rg}/providers/
+              Microsoft.Network/virtualNetworks/{vnet}/subnets/{subnet}
+  - location: Azure region (e.g., eastus)
+  
+Subnet Configuration:
+  - Address range: 10.100.10.0/24 (254 usable IPs)
+  - Delegation: Microsoft.GitHub/networkSettings
+  - Service endpoints: None required
+                </pre>
+            </div>
+
+            <h3>Workflow Configuration Example</h3>
+            <p>Workflows specify the network-integrated runner group to utilize VNet connectivity:</p>
+            
+            <div class="intro-box" style="background: #1e1e1e; color: #E0E0E0; font-family: 'Courier New', monospace;">
+                <pre style="margin: 0; color: #E0E0E0;">
+name: Deploy to Private Azure Resources
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: 
+      group: azure-vnet-runners  # Network-integrated runner group
+      
+    steps:
+      - name: Display Runner IP
+        run: curl -s ifconfig.me
+        # Returns IP from 10.100.10.x range
+        
+      - name: Access Private Storage
+        run: |
+          az storage blob upload \
+            --account-name privatestorageacct \
+            --container-name builds \
+            --file ./artifact.zip
+        # Succeeds via private endpoint (10.x.x.x)
+                </pre>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Technologies & Tools Used</h2>
+            <div class="tech-tags">
+                <span class="tag">GitHub Enterprise Cloud</span>
+                <span class="tag">GitHub Actions</span>
+                <span class="tag">Azure Virtual Network</span>
+                <span class="tag">Azure Private Endpoints</span>
+                <span class="tag">GitHub.Network Provider</span>
+                <span class="tag">Network Security Groups</span>
+                <span class="tag">Subnet Delegation</span>
+                <span class="tag">Azure Resource Manager</span>
+                <span class="tag">GitHub Runner Groups</span>
+                <span class="tag">CI/CD</span>
+                <span class="tag">DevSecOps</span>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Architecture Diagram</h2>
+            <div style="text-align: center; margin: 2rem 0;">
+                <img src="../images/github-vnet-architecture.png" alt="GitHub VNet Integration Architecture" style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: var(--shadow);">
+                <p style="margin-top: 0.5rem; color: var(--text-gray); font-size: 0.9rem;">Architecture showing GitHub-hosted runners integrated with Azure VNet for private resource access</p>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Best Practices & Recommendations</h2>
+            <ul>
+                <li><strong>Subnet Planning:</strong> Allocate /24 subnet minimum (254 IPs) for enterprise workloads; GitHub consumes multiple IPs per concurrent runner</li>
+                <li><strong>NSG Configuration:</strong> Allow outbound internet for package managers (npm, pip, NuGet); block inbound except Azure infrastructure services</li>
+                <li><strong>Repository Access:</strong> Always configure at both Enterprise and Organization levels to avoid workflow routing failures</li>
+                <li><strong>Runner Group Naming:</strong> Use descriptive names indicating network configuration for easy workflow targeting</li>
+                <li><strong>Testing Strategy:</strong> Create simple test workflow displaying runner IP before deploying production workflows</li>
+                <li><strong>Documentation:</strong> Document GitHubId hash location and network settings resource ID for future reference</li>
+                <li><strong>Monitoring:</strong> Track runner usage and subnet IP consumption using Azure Network Watcher</li>
+            </ul>
+        </section>
+
+        <div class="cta-section">
+            <div class="cta-box">
+                <h2>Need GitHub Enterprise Cloud Integration?</h2>
+                <p>I specialize in implementing secure, scalable CI/CD solutions with GitHub Enterprise Cloud, Azure DevOps, and cloud infrastructure automation.</p>
+                <div class="cta-buttons">
+                    <a href="../contact.html" class="btn-primary">Get in Touch</a>
+                    <a href="../projects.html" class="btn-secondary">View More Projects</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 João Meira. All rights reserved.</p>
+    </footer>
+</body>
+</html>
