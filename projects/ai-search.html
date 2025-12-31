@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure AI Search with Copilot Studio - João Meira</title>
+    <link rel="stylesheet" href="../Style/assets/css/style.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-brand">João Meira</a>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../projects.html" class="active">Projects</a></li>
+                <li><a href="../skills.html">Skills</a></li>
+                <li><a href="../experience.html">Experience</a></li>
+                <li><a href="../formations.html">Certifications</a></li>
+                <li><a href="../Resume.pdf" target="_blank">PDF</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <h1>Azure AI Search with Copilot Studio</h1>
+        <p>RAG-powered document discovery using semantic search, vector embeddings, and conversational AI</p>
+    </header>
+
+    <main class="container">
+        <section class="intro">
+            <div class="intro-box">
+                <p><strong>Status:</strong> <span style="color: var(--success-green);">Production</span> | <strong>Complexity:</strong> Advanced AI Integration | <strong>Architecture:</strong> RAG (Retrieval-Augmented Generation)</p>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Project Overview</h2>
+            <p>Implemented Azure AI Search integrated with Microsoft Copilot Studio for an enterprise customer, delivering intelligent document discovery across publicly accessible PDF library. The solution replaced Google Vertex AI with Microsoft-native tools, enabling semantic search capabilities with public web access for unauthenticated users.</p>
+            
+            <p>The implementation leveraged Azure Blob Storage for document hosting, Azure AI Search with semantic ranking and vector search for intelligent content retrieval, and Copilot Studio for conversational interface, creating a Google/Bing-style search experience scoped exclusively to the customer's document repository.</p>
+        </section>
+
+        <!-- NEW RAG SECTION -->
+        <section class="project-section">
+            <h2>RAG Architecture (Retrieval-Augmented Generation)</h2>
+            
+            <h3>What is RAG?</h3>
+            <p>RAG solves a fundamental LLM limitation: <strong>language models only know their training data</strong>. When users ask about YOUR specific documents, the LLM has no knowledge of them. RAG augments the LLM's knowledge by retrieving relevant content from your documents and injecting it into the AI's context at query time.</p>
+            
+            <table style="width: 100%; border-collapse: collapse; margin: 2rem 0;">
+                <thead>
+                    <tr style="background: var(--primary-blue); color: white;">
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-gray);">Component</th>
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-gray);">Purpose</th>
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-gray);">Implementation</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>Retrieval</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Find relevant documents using semantic search</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Azure AI Search + vector embeddings</td>
+                    </tr>
+                    <tr style="background: var(--bg-light);">
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>Augmented</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Inject retrieved content into LLM context</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Document chunks passed to Copilot Studio</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>Generation</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Generate natural language answers</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">GPT-4 responds using YOUR documents</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Without RAG vs With RAG</h3>
+            <div class="intro-box" style="background: var(--bg-light); border-left-color: #dc3545;">
+                <p><strong>❌ Without RAG:</strong></p>
+                <p style="font-family: 'Courier New', monospace; margin-left: 1rem;">User: "What's the dog license fee?"<br>
+                GPT-4: "I don't have specific information about your jurisdiction."</p>
+            </div>
+            
+            <div class="intro-box" style="background: var(--bg-light); border-left-color: var(--success-green);">
+                <p><strong>✅ With RAG:</strong></p>
+                <p style="font-family: 'Courier New', monospace; margin-left: 1rem;">User: "What's the dog license fee?"</p>
+                <ol style="margin-left: 2rem;">
+                    <li><strong>RETRIEVE:</strong> Vector search finds Dog_License_Registration.pdf</li>
+                    <li><strong>AUGMENT:</strong> PDF content injected into GPT-4 prompt</li>
+                    <li><strong>GENERATE:</strong> GPT-4 reads YOUR doc and responds:</li>
+                </ol>
+                <p style="font-family: 'Courier New', monospace; margin-left: 2rem; color: var(--success-green);">"The dog license fee is $15 for spayed/neutered dogs and $45 for unaltered dogs. You need proof of rabies vaccination to register."</p>
+            </div>
+
+            <h3>Why Vector Search Matters</h3>
+            <p>Traditional keyword search only matches exact words. Vector search understands <strong>meaning</strong>:</p>
+            
+            <table style="width: 100%; border-collapse: collapse; margin: 2rem 0;">
+                <thead>
+                    <tr style="background: var(--primary-blue); color: white;">
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-gray);">Search Type</th>
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-gray);">Query: "pet registration"</th>
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-gray);">Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>Keyword Search</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Looks for exact words "pet" and "registration"</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">❌ Won't find "Dog License" document</td>
+                    </tr>
+                    <tr style="background: var(--bg-light);">
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>Vector Search</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Converts query to 1536-dimension vector, finds semantically similar content</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">✅ Finds "Dog License" document (same meaning)</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>Azure OpenAI <code>text-embedding-3-small</code> converts text into 1536-dimension vectors, enabling semantic similarity matching beyond keyword boundaries.</p>
+        </section>
+        <!-- END RAG SECTION -->
+
+        <section class="project-section">
+            <h2>Business Challenge</h2>
+            <p>The enterprise customer faced limitations with their existing document search infrastructure:</p>
+            
+            <ul>
+                <li><strong>External Dependency:</strong> Reliance on Google Vertex AI for search functionality created vendor lock-in and integration complexity</li>
+                <li><strong>Limited Microsoft Integration:</strong> Customer wanted unified Microsoft ecosystem (Azure + Copilot Studio) for consistency with enterprise tools</li>
+                <li><strong>Public Access Requirement:</strong> Document search must be available to unauthenticated public users without login barriers</li>
+                <li><strong>Document Discovery Focus:</strong> Users need Google/Bing-style ranked results lists, not conversational Q&A chatbot</li>
+                <li><strong>Semantic Search Capability:</strong> Standard keyword search missed conceptually related documents; needed AI-powered semantic understanding</li>
+                <li><strong>PDF Content Indexing:</strong> Large PDF library required full-text indexing with metadata extraction</li>
+            </ul>
+            
+            <p><strong>Solution:</strong> Implement Azure AI Search with semantic ranking for document indexing, integrate with Copilot Studio for public-facing interface, and enable vector search for intelligent document discovery.</p>
+        </section>
+
+        <section class="project-section">
+            <h2>Technical Architecture</h2>
+            
+            <h3>RAG Architecture Diagram</h3>
+            <div class="intro-box" style="background: #1e1e1e; color: #E0E0E0; font-family: 'Courier New', monospace; overflow-x: auto;">
+                <pre style="margin: 0; color: #E0E0E0;">
+┌─────────────────────────────────────────────────────────────────┐
+│                        User Query                                │
+│                  "What are building permit requirements?"        │
+└─────────────────────────────────────┬───────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                     Copilot Studio (GPT-4)                       │
+│                   Conversational Interface                       │
+│                        GENERATION                                │
+└─────────────────────────────────────┬───────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      Azure AI Search                             │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  │
+│  │  Vector Index   │  │ Semantic Ranker │  │  Text Chunks    │  │
+│  │  (Embeddings)   │  │  (Relevance)    │  │  (Content)      │  │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘  │
+│                         RETRIEVAL                                │
+└─────────────────────────────────────┬───────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                       Azure OpenAI                               │
+│               text-embedding-3-small (1536 dimensions)           │
+│                    Converts text → vectors                       │
+│                        AUGMENTATION                              │
+└─────────────────────────────────────┬───────────────────────────┘
+                                      │
+                                      ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    Azure Blob Storage                            │
+│                   Government PDF Documents                       │
+└─────────────────────────────────────────────────────────────────┘
+                </pre>
+            </div>
+            
+            <h3>Architecture Components</h3>
+            <ul>
+                <li><strong>Azure Blob Storage:</strong> Container hosting PDF documents with public read access</li>
+                <li><strong>Azure AI Search Service:</strong> Standard tier with semantic search and vector capabilities</li>
+                <li><strong>Azure OpenAI:</strong> text-embedding-3-small model for vector embeddings (1536 dimensions)</li>
+                <li><strong>Search Indexer:</strong> Automated PDF processing with OCR and metadata extraction</li>
+                <li><strong>Semantic Configuration:</strong> AI-powered relevance ranking for search results</li>
+                <li><strong>Microsoft Copilot Studio:</strong> Conversational interface with Azure AI Search knowledge source</li>
+                <li><strong>Public Web Publishing:</strong> Embedded Copilot bot or custom search interface for public access</li>
+            </ul>
+
+            <h3>Data Flow</h3>
+            <ol>
+                <li>PDFs stored in Azure Blob Storage with public read access</li>
+                <li>Azure AI Search indexer crawls blob container, extracts text and metadata from PDFs</li>
+                <li>Azure OpenAI generates vector embeddings for each document chunk</li>
+                <li>Content indexed with semantic embeddings for intelligent search</li>
+                <li>User query converted to vector, matched against document vectors</li>
+                <li>Copilot Studio receives relevant chunks, GPT-4 generates natural response</li>
+                <li>Results returned as ranked document list with snippets and source links</li>
+            </ol>
+        </section>
+
+        <!-- NEW IaC SECTION -->
+        <section class="project-section">
+            <h2>Infrastructure as Code</h2>
+            
+            <h3>Terraform Automation</h3>
+            <p>All infrastructure deployed via Terraform with GitHub Actions CI/CD, enabling repeatable destroy/deploy cycles in minutes.</p>
+            
+            <table style="width: 100%; border-collapse: collapse; margin: 2rem 0;">
+                <thead>
+                    <tr style="background: var(--primary-blue); color: white;">
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-gray);">Resource</th>
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-gray);">Terraform Resource</th>
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-gray);">Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Resource Group</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><code>azurerm_resource_group</code></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Container for all resources</td>
+                    </tr>
+                    <tr style="background: var(--bg-light);">
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Storage Account</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><code>azurerm_storage_account</code></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">PDF document storage (no keys)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">AI Search Service</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><code>azurerm_search_service</code></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Vector + semantic search</td>
+                    </tr>
+                    <tr style="background: var(--bg-light);">
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Azure OpenAI</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><code>azurerm_cognitive_account</code></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Embedding model host</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Model Deployment</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><code>azurerm_cognitive_deployment</code></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">text-embedding-3-small</td>
+                    </tr>
+                    <tr style="background: var(--bg-light);">
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Role Assignments</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><code>azurerm_role_assignment</code></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Managed identity auth</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Zero Secrets Architecture</h3>
+            <div class="intro-box" style="background: #1e1e1e; color: #E0E0E0; font-family: 'Courier New', monospace;">
+                <pre style="margin: 0; color: #E0E0E0;">
+# OIDC Authentication - No client secrets stored
+provider "azurerm" {
+  features {}
+  use_oidc = true  # Federated credentials
+}
+
+# Storage without access keys (CAF compliant)
+resource "azurerm_storage_account" "documents" {
+  shared_access_key_enabled = false  # Azure AD auth only
+}
+
+# Service-to-service via managed identity
+resource "azurerm_role_assignment" "search_to_openai" {
+  role_definition_name = "Cognitive Services OpenAI User"
+  principal_id         = azurerm_search_service.main.identity[0].principal_id
+}
+                </pre>
+            </div>
+
+            <h3>GitHub Actions OIDC</h3>
+            <p>No secrets stored in GitHub - uses federated identity for secure CI/CD:</p>
+            <div class="intro-box" style="background: #1e1e1e; color: #E0E0E0; font-family: 'Courier New', monospace;">
+                <pre style="margin: 0; color: #E0E0E0;">
+permissions:
+  id-token: write  # Request OIDC token
+
+- name: Azure Login (OIDC)
+  uses: azure/login@v1
+  with:
+    client-id: ${{ secrets.AZURE_CLIENT_ID }}
+    tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+    subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+    # No client-secret needed!
+                </pre>
+            </div>
+        </section>
+        <!-- END IaC SECTION -->
+
+        <section class="project-section">
+            <h2>Implementation Process</h2>
+            
+            <h3>Phase 1: Azure Blob Storage Setup</h3>
+            <ol>
+                <li><strong>Storage Account Creation:</strong> Created Azure Storage account with Standard performance tier</li>
+                <li><strong>Container Configuration:</strong> Created blob container with "Blob (anonymous read access for blobs only)" public access level</li>
+                <li><strong>PDF Upload:</strong> Uploaded customer's PDF document library to blob container</li>
+                <li><strong>Access Verification:</strong> Confirmed public URL access to PDFs without authentication</li>
+                <li><strong>Container SAS:</strong> Generated SAS token for indexer access to blob metadata</li>
+            </ol>
+
+            <h3>Phase 2: Azure AI Search Configuration</h3>
+            <ol>
+                <li><strong>Search Service Provisioning:</strong> Created Azure AI Search service (Standard S1 tier for semantic search)</li>
+                <li><strong>Data Source Setup:</strong> Configured blob storage as AI Search data source with SAS connection</li>
+                <li><strong>Index Schema Design:</strong> Defined index fields:
+                    <ul>
+                        <li>content (searchable, semantic)</li>
+                        <li>metadata_storage_name (filterable, searchable)</li>
+                        <li>metadata_storage_path (retrievable for document links)</li>
+                        <li>metadata_creation_date (filterable, sortable)</li>
+                        <li>metadata_content_type (filterable)</li>
+                    </ul>
+                </li>
+                <li><strong>Skillset Configuration:</strong> Created cognitive skills for PDF text extraction and OCR</li>
+                <li><strong>Indexer Creation:</strong> Set up automated indexer with schedule for content updates</li>
+            </ol>
+
+            <h3>Phase 3: Vector Search & RAG Enablement</h3>
+            <ol>
+                <li><strong>Azure OpenAI Deployment:</strong> Created Azure OpenAI resource with text-embedding-3-small model</li>
+                <li><strong>RAG Wizard Configuration:</strong> Used "Import data (new)" → RAG option for integrated vectorization</li>
+                <li><strong>Vector Index Creation:</strong> Automatic chunking and embedding generation for all documents</li>
+                <li><strong>Semantic Configuration:</strong> Enabled semantic ranking for improved relevance</li>
+                <li><strong>Query Testing:</strong> Validated vector search with sample queries using Search Explorer</li>
+            </ol>
+
+            <h3>Phase 4: Copilot Studio Integration</h3>
+            <ol>
+                <li><strong>Copilot Creation:</strong> Created new Copilot agent in Copilot Studio</li>
+                <li><strong>Knowledge Source Addition:</strong> Added Azure AI Search as knowledge source:
+                    <ul>
+                        <li>Search service endpoint URL</li>
+                        <li>Index name</li>
+                        <li>API key authentication (or managed identity)</li>
+                        <li>Semantic configuration name</li>
+                    </ul>
+                </li>
+                <li><strong>Topic Configuration:</strong> Created search topic to handle document discovery queries</li>
+                <li><strong>Response Formatting:</strong> Configured Copilot to return document lists with links and snippets</li>
+            </ol>
+
+            <h3>Phase 5: Public Access Configuration</h3>
+            <ol>
+                <li><strong>Authentication Settings:</strong> Disabled authentication requirement for public access</li>
+                <li><strong>Web Publishing:</strong> Published Copilot to public web channel</li>
+                <li><strong>Embedding Options:</strong> 
+                    <ul>
+                        <li>Option A: Embedded iframe on customer website</li>
+                        <li>Option B: Custom search page using Azure AI Search REST API</li>
+                    </ul>
+                </li>
+                <li><strong>Usage Analytics:</strong> Enabled Application Insights for query monitoring</li>
+            </ol>
+
+            <h3>Phase 6: Testing & Optimization</h3>
+            <ol>
+                <li><strong>Search Quality Testing:</strong> Validated semantic relevance with domain-specific queries</li>
+                <li><strong>Public Access Verification:</strong> Confirmed unauthenticated user access to search interface</li>
+                <li><strong>Performance Tuning:</strong> Optimized indexer schedule and semantic configuration</li>
+                <li><strong>Result Ranking Adjustment:</strong> Fine-tuned scoring profiles for optimal document ranking</li>
+            </ol>
+        </section>
+
+        <section class="project-section">
+            <h2>Key Technical Insights</h2>
+            
+            <h3>Public Access Architecture Decision</h3>
+            <div class="intro-box" style="background: var(--bg-light); border-left-color: var(--light-blue);">
+                <p><strong>Challenge:</strong> Customer required public access to search but Copilot Studio typically requires authentication.</p>
+                <p><strong>Decision Point:</strong> Two architecture options emerged:</p>
+                <ul>
+                    <li><strong>Option A - Copilot Studio:</strong> Conversational interface, easier to build, rich user experience, but limited public access customization</li>
+                    <li><strong>Option B - Custom Search UI:</strong> Traditional search box + results list (Google-style), full customization, true public access, but requires front-end development</li>
+                </ul>
+                <p><strong>Implementation:</strong> Built both in POC to let customer choose. Copilot Studio for conversational search, custom UI for traditional search experience.</p>
+                <p><strong>Outcome:</strong> Customer selected custom search UI for public website integration; Copilot Studio used for internal knowledge base access.</p>
+            </div>
+
+            <h3>Other Implementation Learnings</h3>
+            <ul>
+                <li><strong>Blob Storage Tier:</strong> Hot tier recommended for frequently accessed PDFs; Cool tier for archival documents reduces costs</li>
+                <li><strong>Indexer Schedule:</strong> Hourly indexing for frequently updated content; daily for static libraries balances freshness and costs</li>
+                <li><strong>PDF Text Extraction:</strong> Built-in PDF skill handles most documents; complex layouts require custom OCR skillset</li>
+                <li><strong>Semantic Search Costs:</strong> Usage-based pricing requires query volume estimation for budget planning</li>
+                <li><strong>Result Snippets:</strong> Configure highlighting to show contextual excerpts around matched keywords</li>
+                <li><strong>CORS Configuration:</strong> Enable CORS on AI Search service for direct browser queries from custom UI</li>
+            </ul>
+        </section>
+
+        <section class="project-section">
+            <h2>Search Architecture Comparison</h2>
+            
+            <h3>Copilot Studio vs Custom Search UI</h3>
+            
+            <table style="width: 100%; border-collapse: collapse; margin: 2rem 0;">
+                <thead>
+                    <tr style="background: var(--primary-blue); color: white;">
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-gray);">Feature</th>
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-gray);">Copilot Studio</th>
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-gray);">Custom Search UI</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>User Experience</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Chat-style ("Ask a question")</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Search box + results list (Google-style)</td>
+                    </tr>
+                    <tr style="background: var(--bg-light);">
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>Output Format</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Answer + source citations</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Ranked document list with snippets</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>Public Access</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Yes (publish to web channel)</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Yes (static site or App Service)</td>
+                    </tr>
+                    <tr style="background: var(--bg-light);">
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>Licensing</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Per-message cost (unauthenticated users)</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">None beyond Azure resources</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>Development Effort</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Low-code configuration</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Light front-end development (HTML/JS)</td>
+                    </tr>
+                    <tr style="background: var(--bg-light);">
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>Backend</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Azure AI Search as knowledge source</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Azure AI Search REST API</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>Implementation Time</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">1-2 days</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">2-3 days</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="project-section">
+            <h2>Results & Business Impact</h2>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>🔍 Semantic Search Accuracy</h3>
+                    <p>AI-powered semantic ranking delivers conceptually relevant results. Query "renewable energy policies" returns related sustainability documents beyond exact keyword matches.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>🌐 True Public Access</h3>
+                    <p>Zero authentication barriers for public users. Search interface accessible from customer website without login or registration requirements.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>🏢 Microsoft Ecosystem Consolidation</h3>
+                    <p>Eliminated Google Vertex AI dependency. Unified Azure + Copilot Studio stack reduces vendor complexity and improves enterprise integration.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>⚡ Sub-Second Search Performance</h3>
+                    <p>Azure AI Search delivers results in under 500ms for typical queries. Semantic ranking adds minimal latency while significantly improving relevance.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>📊 Enhanced Analytics</h3>
+                    <p>Application Insights provides query analytics: popular search terms, zero-result queries, user engagement patterns. Enables continuous improvement.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>🔄 Repeatable Infrastructure</h3>
+                    <p>Terraform automation enables destroy/deploy in minutes. Zero secrets architecture with OIDC and managed identities for enterprise security.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Sample Vector Search Response</h2>
+            <div class="intro-box" style="background: #1e1e1e; color: #E0E0E0; font-family: 'Courier New', monospace;">
+                <pre style="margin: 0; color: #E0E0E0;">
+{
+  "@search.score": 0.032786883,
+  "@search.rerankerScore": 3.325714588,    // Semantic ranking score
+  "@search.answers": [{
+    "text": "Section 1: Permit Requirements...",
+    "score": 0.972                          // High confidence answer
+  }],
+  "chunk": "Building Code Regulations - 2024\n\nSection 1: Permit Requirements\nAll construction projects exceeding $5,000...",
+  "title": "Building_Code_Regulation_2024.pdf",
+  "text_vector": [-0.017, 0.032, 0.073, ...]  // 1536 dimensions
+}
+                </pre>
+            </div>
+            <p>The <code>text_vector</code> field contains the embedding - a 1536-number representation of the document's semantic meaning, enabling "meaning-based" search rather than keyword matching.</p>
+        </section>
+
+        <section class="project-section">
+            <h2>Sample Configurations</h2>
+            
+            <h3>Azure AI Search Index Schema</h3>
+            <div class="intro-box" style="background: #1e1e1e; color: #E0E0E0; font-family: 'Courier New', monospace;">
+                <pre style="margin: 0; color: #E0E0E0;">
+{
+  "name": "public-documents-index",
+  "fields": [
+    {
+      "name": "content",
+      "type": "Edm.String",
+      "searchable": true,
+      "analyzer": "en.microsoft"
+    },
+    {
+      "name": "metadata_storage_name",
+      "type": "Edm.String",
+      "searchable": true,
+      "filterable": true,
+      "sortable": true
+    },
+    {
+      "name": "metadata_storage_path",
+      "type": "Edm.String",
+      "key": true,
+      "retrievable": true
+    },
+    {
+      "name": "text_vector",
+      "type": "Collection(Edm.Single)",
+      "searchable": true,
+      "dimensions": 1536,
+      "vectorSearchProfile": "default"
+    }
+  ],
+  "semantic": {
+    "configurations": [{
+      "name": "default",
+      "prioritizedFields": {
+        "titleField": { "fieldName": "metadata_storage_name" },
+        "prioritizedContentFields": [{ "fieldName": "content" }]
+      }
+    }]
+  }
+}
+                </pre>
+            </div>
+
+            <h3>Copilot Studio Knowledge Source Configuration</h3>
+            <div class="intro-box" style="background: #1e1e1e; color: #E0E0E0; font-family: 'Courier New', monospace;">
+                <pre style="margin: 0; color: #E0E0E0;">
+Copilot Studio → Knowledge → Add Knowledge Source
+
+Type: Azure AI Search
+Configuration:
+  - Search Service URL: https://[service-name].search.windows.net
+  - Index Name: public-documents-index
+  - Authentication: API Key (or Managed Identity)
+  - Semantic Configuration: default
+  - Query Type: semantic (enables AI-powered ranking)
+  
+Topic Configuration:
+  - Trigger: User query contains search intent
+  - Action: Query Azure AI Search knowledge source
+  - Response: Format results as document list with:
+    * Document title (metadata_storage_name)
+    * Snippet (content excerpt)
+    * Source link (metadata_storage_path)
+    * Relevance score
+                </pre>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Technologies & Tools Used</h2>
+            <div class="tech-tags">
+                <span class="tag">Azure AI Search</span>
+                <span class="tag">Microsoft Copilot Studio</span>
+                <span class="tag">Azure OpenAI</span>
+                <span class="tag">text-embedding-3-small</span>
+                <span class="tag">Azure Blob Storage</span>
+                <span class="tag">Semantic Search</span>
+                <span class="tag">Vector Search</span>
+                <span class="tag">RAG Architecture</span>
+                <span class="tag">Terraform</span>
+                <span class="tag">GitHub Actions</span>
+                <span class="tag">OIDC</span>
+                <span class="tag">Managed Identities</span>
+                <span class="tag">Azure Cognitive Skills</span>
+                <span class="tag">PDF Text Extraction</span>
+                <span class="tag">Application Insights</span>
+                <span class="tag">REST API</span>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Key Technical Achievements</h2>
+            <table style="width: 100%; border-collapse: collapse; margin: 2rem 0;">
+                <thead>
+                    <tr style="background: var(--primary-blue); color: white;">
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-gray);">Achievement</th>
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-gray);">Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>RAG Architecture</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Retrieval-Augmented Generation for document Q&A</td>
+                    </tr>
+                    <tr style="background: var(--bg-light);">
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>Vector Embeddings</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">text-embedding-3-small (1536 dimensions)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>Semantic Ranking</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">AI-powered relevance beyond keywords</td>
+                    </tr>
+                    <tr style="background: var(--bg-light);">
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>Zero Secrets</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">OIDC + Managed Identities (no API keys in automation)</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>Repeatable Deploys</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">Terraform destroy/deploy in minutes</td>
+                    </tr>
+                    <tr style="background: var(--bg-light);">
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);"><strong>CAF Compliant</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-gray);">No storage keys, Azure AD auth only</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="project-section">
+            <h2>Cost Optimization Strategies</h2>
+            <ul>
+                <li><strong>Blob Storage Tier:</strong> Use Cool or Archive tier for infrequently accessed PDFs (80% storage cost reduction)</li>
+                <li><strong>Search Service Tier:</strong> Start with Basic tier for POC; upgrade to Standard only when semantic search required</li>
+                <li><strong>Indexer Schedule:</strong> Reduce indexer frequency for static content (hourly → daily) to minimize cognitive services costs</li>
+                <li><strong>Semantic Queries:</strong> Usage-based pricing; implement caching or query throttling for high-volume public sites</li>
+                <li><strong>Result Set Size:</strong> Limit $top parameter to 50 results per query to reduce processing costs</li>
+                <li><strong>Development/Testing:</strong> Delete and recreate resources after POC to avoid ongoing charges for unused infrastructure</li>
+            </ul>
+        </section>
+
+        <section class="project-section">
+            <h2>Best Practices & Recommendations</h2>
+            <ul>
+                <li><strong>Index Design:</strong> Include metadata fields (document type, category, date) for faceted navigation and filtering</li>
+                <li><strong>Semantic Configuration:</strong> Carefully select title and content fields; semantic ranking quality depends on proper field prioritization</li>
+                <li><strong>Public Access Security:</strong> Even with public search, implement rate limiting and query monitoring to prevent abuse</li>
+                <li><strong>Result Highlighting:</strong> Enable hit highlighting to show query match context in search result snippets</li>
+                <li><strong>Zero-Result Queries:</strong> Log queries returning no results; indicates content gaps or indexing issues</li>
+                <li><strong>PDF Quality:</strong> Scanned PDFs require OCR skillset; native digital PDFs index faster and more accurately</li>
+                <li><strong>Content Freshness:</strong> Balance indexer frequency with content update patterns; hourly for dynamic, daily for static</li>
+                <li><strong>User Analytics:</strong> Monitor popular queries to identify user needs and content optimization opportunities</li>
+            </ul>
+        </section>
+
+        <section class="project-section">
+            <h2>Future Enhancements</h2>
+            <ul>
+                <li>Implement multi-language support for international document libraries</li>
+                <li>Add custom entity extraction (people, locations, topics) for advanced faceted search</li>
+                <li>Integrate Azure OpenAI for query rephrasing and answer generation from search results</li>
+                <li>Implement personalized search ranking based on user role or department</li>
+                <li>Add document recommendation engine using collaborative filtering on search patterns</li>
+                <li>Create PowerBI dashboard for search analytics and content performance metrics</li>
+            </ul>
+        </section>
+
+        <div class="cta-section">
+            <div class="cta-box">
+                <h2>Need Intelligent Document Search?</h2>
+                <p>I specialize in implementing RAG architectures, Azure AI Search, Copilot Studio, and semantic search solutions for enterprise knowledge management and public-facing document discovery.</p>
+                <div class="cta-buttons">
+                    <a href="../contact.html" class="btn-primary">Get in Touch</a>
+                    <a href="../projects.html" class="btn-secondary">View More Projects</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 João Meira. All rights reserved.</p>
+    </footer>
+</body>
+</html>
