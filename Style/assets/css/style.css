@@ -162,21 +162,21 @@ body {
     padding-bottom: 0.5rem;
 }
 
-/* ===== PROJECTS GRID - SMALLER TILES ===== */
+/* ===== PROJECTS GRID - MORE RECTANGULAR ===== */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.25rem;
-    margin-top: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
 }
 
 .project-card {
     background: var(--bg-white);
-    padding: 1.25rem;
-    border-radius: 6px;
+    padding: 1.5rem;
+    border-radius: 8px;
     box-shadow: var(--shadow);
     transition: all 0.3s ease;
-    border-top: 3px solid var(--primary-blue);
+    border-top: 4px solid var(--primary-blue);
     position: relative;
 }
 
@@ -186,24 +186,24 @@ body {
 
 .project-status {
     position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
+    top: 1rem;
+    right: 1rem;
     background: var(--success-green);
     color: white;
-    padding: 0.15rem 0.5rem;
-    border-radius: 12px;
-    font-size: 0.7rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
     font-weight: 500;
 }
 
 .project-card:hover {
-    transform: translateY(-3px);
+    transform: translateY(-5px);
     box-shadow: var(--shadow-hover);
 }
 
 .project-card h3 {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
     color: var(--primary-blue);
 }
 
@@ -211,15 +211,15 @@ body {
     color: var(--text-gray);
     margin-bottom: 0.75rem;
     line-height: 1.5;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
 }
 
 /* ===== TECH TAGS - SMALLER ===== */
 .tech-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.3rem;
-    margin: 0.5rem 0;
+    gap: 0.35rem;
+    margin: 0.75rem 0;
 }
 
 .tag,
@@ -227,8 +227,8 @@ body {
     background: var(--bg-light);
     color: var(--primary-blue);
     padding: 0.15rem 0.5rem;
-    border-radius: 12px;
-    font-size: 0.7rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
     font-weight: 500;
     border: 1px solid var(--border-color);
 }
@@ -253,7 +253,7 @@ body {
 
 .btn-primary:hover {
     background: var(--dark-blue);
-    transform: translateX(3px);
+    transform: translateX(5px);
 }
 
 .btn-secondary {
