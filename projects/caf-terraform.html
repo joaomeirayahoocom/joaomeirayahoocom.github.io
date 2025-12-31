@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure CAF Terraform Patterns - João Meira</title>
+    <link rel="stylesheet" href="../Style/assets/css/style.css">
+</head>
+<body>
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-brand">João Meira</a>
+            <ul class="nav-menu">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../projects.html" class="active">Projects</a></li>
+                <li><a href="../skills.html">Skills</a></li>
+                <li><a href="../experience.html">Experience</a></li>
+                <li><a href="../formations.html">Certifications</a></li>
+                <li><a href="../Resume.pdf" target="_blank">PDF</a></li>
+                <li><a href="../contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <h1>Azure CAF Terraform Patterns</h1>
+        <p>CAF-compliant Azure infrastructure modules with Net Zero sustainability built-in</p>
+    </header>
+
+    <main class="container">
+        <section class="intro">
+            <div class="intro-box">
+                <p><strong>Status:</strong> <span style="color: var(--success-green);">Production Ready</span> | <strong>Type:</strong> Infrastructure as Code | <strong>Repository:</strong> <a href="https://github.com/joaomeirayahoocom/azure-caf-terraform-patterns" target="_blank">GitHub</a></p>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Project Overview</h2>
+            <p>Built a comprehensive library of reusable Terraform modules aligned with Microsoft's Cloud Adoption Framework (CAF) for deploying enterprise-scale Azure landing zones. This project extends standard CAF patterns with Net Zero sustainability policies for carbon-aware cloud deployments.</p>
+            
+            <p>The repository provides production-ready modules for organizations looking to deploy Azure infrastructure following best practices, with built-in governance, cost management, and environmental sustainability considerations.</p>
+        </section>
+
+        <section class="project-section">
+            <h2>Business Value</h2>
+            <ul>
+                <li><strong>Accelerated Deployment:</strong> Pre-built modules reduce landing zone deployment from weeks to days</li>
+                <li><strong>Consistent Standards:</strong> CAF-compliant naming, tagging, and governance across all deployments</li>
+                <li><strong>Cost Control:</strong> Built-in budgets, alerts, and auto-shutdown for non-production environments</li>
+                <li><strong>Sustainability:</strong> Net Zero policies restrict deployments to low-carbon regions and audit resource waste</li>
+                <li><strong>Security by Default:</strong> Private endpoints, RBAC, and network isolation patterns included</li>
+                <li><strong>Operational Excellence:</strong> Centralized monitoring with Log Analytics and Application Insights</li>
+            </ul>
+        </section>
+
+        <section class="project-section">
+            <h2>Architecture</h2>
+            
+            <h3>Hub-Spoke Network Topology</h3>
+            <div class="intro-box" style="background: #1e1e1e; color: #E0E0E0; font-family: 'Courier New', monospace;">
+                <pre style="margin: 0; color: #E0E0E0;">
+                    ┌─────────────────┐
+                    │    Internet     │
+                    └────────┬────────┘
+                             │
+                    ┌────────▼────────┐
+                    │   Azure Firewall │
+                    └────────┬────────┘
+                             │
+        ┌────────────────────┼────────────────────┐
+        │                    │                    │
+┌───────▼───────┐   ┌───────▼───────┐   ┌───────▼───────┐
+│   Hub VNet    │   │  Spoke: Prod  │   │  Spoke: Dev   │
+│  10.0.0.0/16  │◄──►  10.1.0.0/16  │   │  10.2.0.0/16  │
+└───────────────┘   └───────────────┘   └───────────────┘
+                </pre>
+            </div>
+
+            <h3>Management Group Hierarchy</h3>
+            <div class="intro-box" style="background: #1e1e1e; color: #E0E0E0; font-family: 'Courier New', monospace;">
+                <pre style="margin: 0; color: #E0E0E0;">
+Contoso (root)
+├── Platform
+│   ├── Identity
+│   ├── Management
+│   └── Connectivity
+├── Landing Zones
+│   ├── Prod
+│   └── Dev
+└── Decommissioned
+                </pre>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Modules Built</h2>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>Naming Convention</h3>
+                    <p>CAF-compliant resource naming with organization prefix, workload, environment, and region. Generates unique names for globally-scoped resources.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>Management Groups</h3>
+                    <p>Hierarchical management group structure for Platform, Landing Zones (Prod/Dev), and Decommissioned subscriptions.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>Subscription Vending</h3>
+                    <p>Automated subscription provisioning with management group placement and budget configuration.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>CAF Baseline Policies</h3>
+                    <p>Governance policies for required tags (Environment, Owner, CostCenter), managed disks, and resource locks.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>Net Zero Policies</h3>
+                    <p>Sustainability policies restricting to low-carbon regions, auditing oversized VMs, and requiring CarbonTracking tags.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>Hub-Spoke Networking</h3>
+                    <p>Hub virtual network with Azure Firewall, Bastion, and Gateway subnets. Spoke networks with automatic peering.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>Private DNS Zones</h3>
+                    <p>Pre-configured private DNS zones for Azure PaaS services (Storage, Key Vault, SQL, ACR, App Service).</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>App Service</h3>
+                    <p>Linux and Windows Web Apps with VNet integration, private endpoints, and managed identity support.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>Identity & Security</h3>
+                    <p>User-assigned managed identities with RBAC role assignments. Key Vault with RBAC, private endpoints, and network ACLs.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>FinOps & Budgets</h3>
+                    <p>Subscription and resource group budgets with configurable alert thresholds and email notifications.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>Resource Lifecycle</h3>
+                    <p>Automation account with scheduled runbooks for auto-shutdown of non-production VMs based on environment tags.</p>
+                </div>
+
+                <div class="project-card">
+                    <h3>Monitoring</h3>
+                    <p>Log Analytics workspace with Application Insights, Container Insights, and VM Insights solutions. Reusable diagnostic settings module.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Net Zero Sustainability Features</h2>
+            
+            <table style="width: 100%; border-collapse: collapse; margin: 2rem 0;">
+                <thead>
+                    <tr style="background: var(--primary-blue); color: white;">
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-color);">Principle</th>
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-color);">Implementation</th>
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-color);">Impact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);"><strong>Right-size first</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">Policy auditing oversized VMs</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">Identifies optimization opportunities</td>
+                    </tr>
+                    <tr style="background: var(--bg-light);">
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);"><strong>Eliminate waste</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">Auto-shutdown, unattached disk detection</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">65% compute savings on non-prod</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);"><strong>Region selection</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">Restrict to low-carbon regions</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">Reduced carbon footprint</td>
+                    </tr>
+                    <tr style="background: var(--bg-light);">
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);"><strong>Measure and report</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">CarbonTracking tag requirement</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">Sustainability reporting enabled</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Low-Carbon Regions</h3>
+            <p>Default allowed regions selected for lower carbon intensity:</p>
+            <ul>
+                <li><strong>eastus2</strong> - Renewable energy investments</li>
+                <li><strong>westus2</strong> - Carbon neutral operations</li>
+                <li><strong>northeurope</strong> - 100% renewable energy</li>
+                <li><strong>swedencentral</strong> - Zero-carbon datacenter</li>
+            </ul>
+        </section>
+
+        <section class="project-section">
+            <h2>Sample Usage</h2>
+            
+            <h3>Naming Module</h3>
+            <div class="intro-box" style="background: #1e1e1e; color: #E0E0E0; font-family: 'Courier New', monospace;">
+                <pre style="margin: 0; color: #E0E0E0;">
+module "naming" {
+  source = "github.com/joaomeirayahoocom/azure-caf-terraform-patterns//modules/naming"
+
+  org_prefix  = "cnt"
+  workload    = "webapp"
+  environment = "prod"
+  region      = "eastus2"
+}
+
+# Output: rg-cnt-webapp-prd-eus2-001
+                </pre>
+            </div>
+
+            <h3>Complete Landing Zone</h3>
+            <div class="intro-box" style="background: #1e1e1e; color: #E0E0E0; font-family: 'Courier New', monospace;">
+                <pre style="margin: 0; color: #E0E0E0;">
+module "hub" {
+  source = "github.com/joaomeirayahoocom/azure-caf-terraform-patterns//modules/networking/hub-spoke"
+
+  resource_group_name = module.naming.names.resource_group
+  location            = "eastus2"
+  hub_vnet_name       = module.naming.names.virtual_network
+  hub_address_space   = ["10.0.0.0/16"]
+
+  tags = module.naming.tags
+}
+
+module "webapp" {
+  source = "github.com/joaomeirayahoocom/azure-caf-terraform-patterns//modules/compute/app-service"
+
+  resource_group_name   = azurerm_resource_group.this.name
+  location              = "eastus2"
+  app_service_plan_name = module.naming.names.app_service_plan
+  app_service_name      = module.naming.unique_names.app_service
+  sku_name              = "S1"
+  os_type               = "Linux"
+  node_version          = "20-lts"
+
+  tags = module.naming.tags
+}
+                </pre>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>CI/CD Pipeline</h2>
+            <p>GitHub Actions workflow validates all modules on every push:</p>
+            <ul>
+                <li><strong>Format Check:</strong> Ensures consistent Terraform formatting</li>
+                <li><strong>Module Validation:</strong> Runs terraform init and validate on each module</li>
+                <li><strong>Automatic Triggers:</strong> Runs on push to main and pull requests</li>
+            </ul>
+            <div class="intro-box" style="background: var(--bg-light); border-left-color: var(--success-green);">
+                <p>All modules validated automatically on every commit</p>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>ALZ Accelerator vs Custom Modules</h2>
+            
+            <table style="width: 100%; border-collapse: collapse; margin: 2rem 0;">
+                <thead>
+                    <tr style="background: var(--primary-blue); color: white;">
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-color);">Aspect</th>
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-color);">ALZ Accelerator</th>
+                        <th style="padding: 1rem; text-align: left; border: 1px solid var(--border-color);">This Project</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);"><strong>Analogy</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">Pre-built house</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">Custom blueprints</td>
+                    </tr>
+                    <tr style="background: var(--bg-light);">
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);"><strong>Flexibility</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">Opinionated, 90% of use cases</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">Fully customizable</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);"><strong>Learning Curve</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">Lower - use as-is</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">Higher - understand each piece</td>
+                    </tr>
+                    <tr style="background: var(--bg-light);">
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);"><strong>Net Zero</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">Not included</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">Built-in sustainability policies</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);"><strong>Best For</strong></td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">Rapid deployment</td>
+                        <td style="padding: 1rem; border: 1px solid var(--border-color);">Custom requirements, learning</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="project-section">
+            <h2>Technologies & Tools</h2>
+            <div class="tech-tags">
+                <span class="tag">Terraform</span>
+                <span class="tag">Azure</span>
+                <span class="tag">Cloud Adoption Framework</span>
+                <span class="tag">Infrastructure as Code</span>
+                <span class="tag">GitHub Actions</span>
+                <span class="tag">Azure Policy</span>
+                <span class="tag">Hub-Spoke Networking</span>
+                <span class="tag">Private Endpoints</span>
+                <span class="tag">Managed Identities</span>
+                <span class="tag">Key Vault</span>
+                <span class="tag">Log Analytics</span>
+                <span class="tag">Application Insights</span>
+                <span class="tag">FinOps</span>
+                <span class="tag">Net Zero</span>
+            </div>
+        </section>
+
+        <section class="project-section">
+            <h2>Key Learnings</h2>
+            <ul>
+                <li><strong>Modular Design:</strong> Small, focused modules are easier to test, maintain, and compose into larger solutions</li>
+                <li><strong>Validation Pipeline:</strong> Automated terraform validate catches syntax errors before deployment</li>
+                <li><strong>Naming Consistency:</strong> Centralized naming module eliminates inconsistencies across resources</li>
+                <li><strong>Policy as Code:</strong> Azure Policy definitions in Terraform enable version-controlled governance</li>
+                <li><strong>Sustainability Integration:</strong> Net Zero policies can be seamlessly integrated into CAF patterns</li>
+            </ul>
+        </section>
+
+        <div class="cta-section">
+            <div class="cta-box">
+                <h2>Need Azure Landing Zone Implementation?</h2>
+                <p>I specialize in designing and deploying CAF-compliant Azure infrastructure using Terraform, with expertise in networking, security, and sustainability.</p>
+                <div class="cta-buttons">
+                    <a href="../contact.html" class="btn-primary">Get in Touch</a>
+                    <a href="https://github.com/joaomeirayahoocom/azure-caf-terraform-patterns" target="_blank" class="btn-secondary">View Repository</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 João Meira. All rights reserved.</p>
+    </footer>
+</body>
+</html>
