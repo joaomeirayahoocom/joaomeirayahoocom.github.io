@@ -162,21 +162,21 @@ body {
     padding-bottom: 0.5rem;
 }
 
-/* ===== PROJECTS GRID ===== */
+/* ===== PROJECTS GRID - SMALLER TILES ===== */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1.5rem;
 }
 
 .project-card {
     background: var(--bg-white);
-    padding: 2rem;
-    border-radius: 8px;
+    padding: 1.25rem;
+    border-radius: 6px;
     box-shadow: var(--shadow);
     transition: all 0.3s ease;
-    border-top: 4px solid var(--primary-blue);
+    border-top: 3px solid var(--primary-blue);
     position: relative;
 }
 
@@ -186,62 +186,64 @@ body {
 
 .project-status {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 0.75rem;
+    right: 0.75rem;
     background: var(--success-green);
     color: white;
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
     font-weight: 500;
 }
 
 .project-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px);
     box-shadow: var(--shadow-hover);
 }
 
 .project-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
     color: var(--primary-blue);
 }
 
 .project-card p {
     color: var(--text-gray);
-    margin-bottom: 1rem;
-    line-height: 1.6;
+    margin-bottom: 0.75rem;
+    line-height: 1.5;
+    font-size: 0.85rem;
 }
 
-/* ===== TECH TAGS ===== */
+/* ===== TECH TAGS - SMALLER ===== */
 .tech-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 1rem 0;
+    gap: 0.3rem;
+    margin: 0.5rem 0;
 }
 
 .tag,
 .skill-badge {
     background: var(--bg-light);
     color: var(--primary-blue);
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
     font-weight: 500;
     border: 1px solid var(--border-color);
 }
 
-/* ===== BUTTONS ===== */
+/* ===== BUTTONS - SMALLER ===== */
 .btn-primary,
 .btn-secondary {
     display: inline-block;
-    padding: 0.75rem 1.5rem;
+    padding: 0.5rem 1rem;
     text-decoration: none;
     border-radius: 4px;
     font-weight: 500;
+    font-size: 0.85rem;
     transition: all 0.3s ease;
-    margin-top: 1rem;
+    margin-top: 0.75rem;
 }
 
 .btn-primary {
@@ -251,7 +253,7 @@ body {
 
 .btn-primary:hover {
     background: var(--dark-blue);
-    transform: translateX(5px);
+    transform: translateX(3px);
 }
 
 .btn-secondary {
@@ -266,7 +268,7 @@ body {
 }
 
 .project-links {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
 }
 
 /* ===== SKILLS PAGE ===== */
@@ -713,16 +715,16 @@ footer p {
         flex-direction: column;
         gap: 0;
     }
-    
+
     .nav-menu li {
         width: 100%;
         text-align: center;
     }
-    
+
     .hero-content h1 {
         font-size: 2rem;
     }
-    
+
     .projects-grid,
     .skills-grid,
     .cert-grid,
@@ -731,11 +733,11 @@ footer p {
     .category-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .learning-box ul {
         columns: 1;
     }
-    
+
     .cta-buttons {
         flex-direction: column;
     }
