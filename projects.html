@@ -5,6 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects - João Meira</title>
     <link rel="stylesheet" href="Style/assets/css/style.css">
+    <style>
+        /* Category Cards */
+        .category-card {
+            background: var(--bg-white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--text-gray);
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            color: inherit;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-left-color: var(--primary-blue);
+        }
+        .category-card h3 {
+            color: var(--text-dark);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .category-card .count {
+            background: var(--bg-light);
+            color: var(--text-gray);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .category-card p {
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+        }
+        .category-card .project-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .category-card .project-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+        .category-card .project-list li:last-child {
+            border-bottom: none;
+        }
+        .category-card .project-list li::before {
+            content: "→ ";
+            color: var(--primary-blue);
+        }
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        /* Single project card (no category needed) */
+        .single-project-card {
+            background: var(--bg-white);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            border-top: 3px solid var(--text-gray);
+        }
+        .single-project-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-hover);
+            border-top-color: var(--primary-blue);
+        }
+        .single-project-card h3 {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+        .single-project-card p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .single-project-card .btn-link {
+            color: var(--primary-blue);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        .single-project-card .btn-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <nav class="main-nav">
@@ -16,217 +113,129 @@
                 <li><a href="skills.html">Skills</a></li>
                 <li><a href="experience.html">Experience</a></li>
                 <li><a href="formations.html">Certifications</a></li>
-                <li><a href="resume.pdf" target="_blank">PDF</a></li>
+                <li><a href="Resume.pdf" target="_blank">PDF</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
         </div>
     </nav>
 
     <header class="page-header">
-        <div class="container">
-            <h1>Projects Portfolio</h1>
-            <p>Showcasing Azure AI, GitHub Security, and Cloud Architecture implementations</p>
-        </div>
+        <h1>Projects</h1>
+        <p>Enterprise solutions and technical implementations</p>
     </header>
 
     <main class="container">
-        <section class="projects-showcase">
-            <div class="projects-grid">
-                <div class="project-card featured">
-                    <div class="project-status">Latest Project</div>
-                    <h3>Copilot Studio Enterprise Agents</h3>
-                    <p>Employee Self Service and Device Request agents with SharePoint/Dataverse integration. Built using Microsoft Copilot Studio with generative AI capabilities.</p>
-                    <div class="tech-tags">
-                        <span class="tag">Copilot Studio</span>
-                        <span class="tag">SharePoint</span>
-                        <span class="tag">Dataverse</span>
-                        <span class="tag">Power Platform</span>
-                        <span class="tag">Generative AI</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="projects/copilot-studio.html" class="btn-primary">View Details →</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <h3>GitHub-Hosted Runners with Azure VNet Integration</h3>
-                    <p>GitHub Enterprise Cloud runners with Azure VNet integration for private networking. Includes subnet delegation, network settings resource creation, and GitHubId hash configuration for Dominion Energy.</p>
-                    <div class="tech-tags">
-                        <span class="tag">GitHub Enterprise</span>
-                        <span class="tag">Azure VNet</span>
-                        <span class="tag">DevOps</span>
-                        <span class="tag">Private Networking</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="projects/github-vnet.html" class="btn-primary">View Details →</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <h3>Azure DevOps Self-Hosted Agents with VMSS</h3>
-                    <p>Scalable CI/CD infrastructure using Azure Virtual Machine Scale Sets with auto-scaling policies, custom VM images, and service principal authentication for elastic, cost-optimized build agents.</p>
-                    <div class="tech-tags">
-                        <span class="tag">Azure DevOps</span>
-                        <span class="tag">VMSS</span>
-                        <span class="tag">Auto-Scaling</span>
-                        <span class="tag">CI/CD</span>
-                        <span class="tag">Azure Monitor</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="projects/azdo-vmss.html" class="btn-primary">View Details →</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <h3>GitHub Advanced Security Implementation</h3>
-                    <p>Enterprise-wide GitHub Advanced Security deployment with Secret Scanning, Code Scanning (CodeQL), and Dependabot automation across organization repositories.</p>
-                    <div class="tech-tags">
-                        <span class="tag">GitHub</span>
-                        <span class="tag">Security</span>
-                        <span class="tag">CodeQL</span>
-                        <span class="tag">DevSecOps</span>
-                        <span class="tag">Azure Entra ID</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="projects/github-security.html" class="btn-primary">View Details →</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <h3>Azure AI Document Intelligence</h3>
-                    <p>Multilingual document processing using Azure AI services including Content Safety, Computer Vision OCR, Document Intelligence, and Azure OpenAI integration.</p>
-                    <div class="tech-tags">
-                        <span class="tag">Azure AI</span>
-                        <span class="tag">Document Intelligence</span>
-                        <span class="tag">Computer Vision</span>
-                        <span class="tag">Python SDK</span>
-                        <span class="tag">REST API</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="projects/azure-ai.html" class="btn-primary">View Details →</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <h3>Azure AI Search with Copilot Studio</h3>
-                    <p>Public document discovery system using Azure AI Search with semantic ranking and Microsoft Copilot Studio integration. Replaced Google Vertex AI with Microsoft-native search for publicly accessible PDF library.</p>
-                    <div class="tech-tags">
-                        <span class="tag">Azure AI Search</span>
-                        <span class="tag">Copilot Studio</span>
-                        <span class="tag">Semantic Search</span>
-                        <span class="tag">Public Access</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="projects/ai-search.html" class="btn-primary">View Details →</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <h3>Power Platform ALM Pipeline</h3>
-                    <p>Automated deployment pipelines for Power Platform solutions using GitHub and Azure DevOps with environment management and connection references.</p>
-                    <div class="tech-tags">
-                        <span class="tag">Power Platform</span>
-                        <span class="tag">Azure DevOps</span>
-                        <span class="tag">GitHub</span>
-                        <span class="tag">CI/CD</span>
-                        <span class="tag">ALM</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="projects/power-platform.html" class="btn-primary">View Details →</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <h3>Azure Landing Zones with Terraform</h3>
-                    <p>Enterprise Azure Landing Zones deployment using Terraform Accelerator with GitHub Actions. Includes 256-policy security compliance and custom archetypes.</p>
-                    <div class="tech-tags">
-                        <span class="tag">Azure Landing Zones</span>
-                        <span class="tag">Terraform</span>
-                        <span class="tag">CAF</span>
-                        <span class="tag">GitHub Actions</span>
-                        <span class="tag">Security</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="projects/landing-zones.html" class="btn-primary">View Details →</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <h3>Azure Synapse Data Pipeline Automation</h3>
-                    <p>Automated Key Vault Linked Services for Synapse workspaces with Azure Entra ID authentication and SQL Pool migration.</p>
-                    <div class="tech-tags">
-                        <span class="tag">Azure Synapse</span>
-                        <span class="tag">Key Vault</span>
-                        <span class="tag">Azure Entra ID</span>
-                        <span class="tag">Data Engineering</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="projects/synapse-automation.html" class="btn-primary">View Details →</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <h3>Custom Vision Object Detection Model</h3>
-                    <p>Azure Machine Learning data labeling project for object detection with COCO file generation and Custom Vision model deployment.</p>
-                    <div class="tech-tags">
-                        <span class="tag">Azure ML</span>
-                        <span class="tag">Custom Vision</span>
-                        <span class="tag">Object Detection</span>
-                        <span class="tag">Computer Vision</span>
-                    </div>
-                    <div class="project-links">
-                        <a href="projects/custom-vision.html" class="btn-primary">View Details →</a>
-                    </div>
-                </div>
+        <section class="intro">
+            <div class="intro-box">
+                <p>A collection of enterprise projects demonstrating expertise in Azure cloud architecture, AI solutions, DevOps automation, and Microsoft platform integrations. Each project showcases real-world implementations with measurable business impact.</p>
             </div>
         </section>
 
         <section class="project-categories">
             <h2>Project Categories</h2>
-            <div class="category-grid">
-                <div class="category-box">
-                    <h3>🤖 Azure AI & ML</h3>
-                    <ul>
-                        <li>Copilot Studio Agents</li>
-                        <li>Azure AI Search & Semantic Search</li>
-                        <li>Document Intelligence</li>
-                        <li>Custom Vision Models</li>
-                        <li>Azure OpenAI Integration</li>
+            
+            <div class="categories-grid">
+                <!-- AI Projects Category -->
+                <div class="category-card" onclick="toggleCategory('ai-projects')">
+                    <h3>
+                        <span>🤖 AI Projects</span>
+                        <span class="count">2 projects</span>
+                    </h3>
+                    <p>Azure AI Search, Copilot Studio, RAG architecture, and semantic search implementations.</p>
+                    <ul class="project-list" id="ai-projects">
+                        <li>Azure AI Search with RAG & Copilot Studio</li>
+                        <li>Microsoft Copilot Studio Employee Agent</li>
                     </ul>
                 </div>
 
-                <div class="category-box">
-                    <h3>🔒 Security & DevSecOps</h3>
-                    <ul>
-                        <li>GitHub Advanced Security</li>
-                        <li>Secret & Code Scanning</li>
-                        <li>Azure VNet Integration</li>
-                        <li>Security Compliance</li>
-                    </ul>
-                </div>
-
-                <div class="category-box">
-                    <h3>☁️ Cloud Architecture</h3>
-                    <ul>
-                        <li>Azure Landing Zones</li>
-                        <li>Terraform Automation</li>
-                        <li>Network Security</li>
-                        <li>Governance & Policies</li>
-                    </ul>
-                </div>
-
-                <div class="category-box">
-                    <h3>⚙️ DevOps & Automation</h3>
-                    <ul>
-                        <li>VMSS Auto-Scaling Agents</li>
-                        <li>Power Platform ALM</li>
-                        <li>Azure DevOps Pipelines</li>
-                        <li>GitHub Actions</li>
-                        <li>Infrastructure as Code</li>
+                <!-- DevOps Projects Category -->
+                <div class="category-card" onclick="toggleCategory('devops-projects')">
+                    <h3>
+                        <span>⚙️ DevOps Projects</span>
+                        <span class="count">2 projects</span>
+                    </h3>
+                    <p>GitHub Actions, Azure DevOps, VMSS pipelines, VNet integration, and infrastructure automation.</p>
+                    <ul class="project-list" id="devops-projects">
+                        <li>Azure DevOps VMSS Self-Hosted Agents</li>
+                        <li>GitHub Actions VNet Integration</li>
                     </ul>
                 </div>
             </div>
         </section>
+
+        <!-- AI Projects Section -->
+        <section class="projects-showcase" id="ai-section">
+            <h2>🤖 AI Projects</h2>
+            
+            <div class="projects-grid">
+                <div class="single-project-card">
+                    <h3>Azure AI Search with RAG & Copilot Studio</h3>
+                    <p>RAG-powered document discovery using vector embeddings, semantic search, and conversational AI. Terraform IaC with GitHub Actions OIDC.</p>
+                    <div class="tech-tags">
+                        <span class="tag">Azure AI Search</span>
+                        <span class="tag">RAG</span>
+                        <span class="tag">Azure OpenAI</span>
+                        <span class="tag">Copilot Studio</span>
+                        <span class="tag">Terraform</span>
+                    </div>
+                    <a href="projects/ai-search.html" class="btn-link">View Details →</a>
+                </div>
+
+                <div class="single-project-card">
+                    <h3>Microsoft Copilot Studio Employee Agent</h3>
+                    <p>Employee self-service agent with SharePoint integration, Dataverse workflows, and Power Platform ALM patterns.</p>
+                    <div class="tech-tags">
+                        <span class="tag">Copilot Studio</span>
+                        <span class="tag">SharePoint</span>
+                        <span class="tag">Dataverse</span>
+                        <span class="tag">Power Platform</span>
+                    </div>
+                    <a href="projects/copilot-studio.html" class="btn-link">View Details →</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- DevOps Projects Section -->
+        <section class="projects-showcase" id="devops-section">
+            <h2>⚙️ DevOps Projects</h2>
+            
+            <div class="projects-grid">
+                <div class="single-project-card">
+                    <h3>Azure DevOps VMSS Self-Hosted Agents</h3>
+                    <p>Virtual Machine Scale Set pipeline agents for Azure DevOps with auto-scaling and enterprise network integration.</p>
+                    <div class="tech-tags">
+                        <span class="tag">Azure DevOps</span>
+                        <span class="tag">VMSS</span>
+                        <span class="tag">Self-Hosted Agents</span>
+                        <span class="tag">Auto-Scaling</span>
+                    </div>
+                    <a href="projects/azdo-vmss.html" class="btn-link">View Details →</a>
+                </div>
+
+                <div class="single-project-card">
+                    <h3>GitHub Actions VNet Integration</h3>
+                    <p>GitHub-hosted runners with Azure VNet integration for secure enterprise deployments using OIDC authentication.</p>
+                    <div class="tech-tags">
+                        <span class="tag">GitHub Actions</span>
+                        <span class="tag">Azure VNet</span>
+                        <span class="tag">OIDC</span>
+                        <span class="tag">Enterprise Security</span>
+                    </div>
+                    <a href="projects/github-vnet.html" class="btn-link">View Details →</a>
+                </div>
+            </div>
+        </section>
+
+        <div class="cta-section">
+            <div class="cta-box">
+                <h2>Interested in Working Together?</h2>
+                <p>I'm available for Azure architecture consulting, AI solution implementations, and DevOps automation projects.</p>
+                <div class="cta-buttons">
+                    <a href="contact.html" class="btn-primary">Get in Touch</a>
+                    <a href="Resume.pdf" target="_blank" class="btn-secondary">Download Resume</a>
+                </div>
+            </div>
+        </div>
     </main>
 
     <footer>
