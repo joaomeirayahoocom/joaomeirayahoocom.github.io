@@ -6,10 +6,10 @@
 }
 
 :root {
-    --primary-blue: #005A9E;
-    --dark-blue: #003D6B;
-    --light-blue: #0078D4;
-    --accent-blue: #50E6FF;
+    --primary-blue: #4A4A4A;
+    --dark-blue: #333333;
+    --light-blue: #666666;
+    --accent-blue: #888888;
     --text-dark: #1F1F1F;
     --text-gray: #605E5C;
     --bg-light: #F3F2F1;
